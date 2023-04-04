@@ -1,7 +1,13 @@
-class Api::V1::TasksController < ApplicationController
+class Api::V1::TasksController < Api::V1::ApiController
   def index
-    @tasks = Task.all
+    # response.set_header("Content-Type", "application/vnd.api+json")
 
-    render json: @tasks
+    @tasks = Task.all
+  end
+
+  def show
+    # response.set_header("Content-Type", "application/vnd.api+json")
+
+    @task = Task.find(params[:id])
   end
 end
