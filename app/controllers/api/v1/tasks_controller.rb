@@ -1,4 +1,7 @@
 class Api::V1::TasksController < Api::V1::ApiController
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
+
   def index
     @tasks = Task.all
   end
@@ -11,34 +14,34 @@ class Api::V1::TasksController < Api::V1::ApiController
     @task = Task.new(task_params)
     @task.save!
 
-    render json: { result: :success }, status: :created
-  rescue ActiveRecord::RecordInvalid
-    render json: { result: :fail, errors: @task.errors.full_messages }, status: :unprocessable_entity
+    render json: :ok, status: :created
   end
 
   def update
     @task = Task.find(params[:id])
     @task.update!(task_params)
 
-    render json: { result: :success }, status: :ok
-  rescue ActiveRecord::RecordNotFound
-    render json: { result: :fail }, status: :not_found
-  rescue ActiveRecord::RecordInvalid
-    render json: { result: :fail, errors: @task.errors.full_messages }, status: :unprocessable_entity
+    render json: :ok
   end
 
   def destroy
     @task = Task.find(params[:id])
     @task.destroy
 
-    render json: { result: :success }, status: :ok
-  rescue ActiveRecord::RecordNotFound
-    render json: { result: :fail }, status: :not_found
+    render json: :ok
   end
 
   private
 
   def task_params
     params.require(:data).permit!
+  end
+
+  def record_not_found
+    render json: { error: "Record not found" }, status: :not_found
+  end
+
+  def record_invalid
+    render json: { errors: @task.errors.full_messages }, status: :unprocessable_entity
   end
 end
