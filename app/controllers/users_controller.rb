@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  # skip_before_action :authenticate_request, only: [:create]
+  skip_before_action :authenticate_request, only: [:create]
   before_action :set_user, only: [:show, :update, :destroy]
 
   def index
@@ -13,16 +13,17 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    # debugger
     if @user.save
       render json: @user, status: :created
     else
-      render json: { errors: @user.errors.full_messages, status: 422 }
+      render json: { errors: @user.errors.full_messages }, status: 422
     end
   end
 
   def update
     unless @user.update(user_params)
-      render json: { errors: @user.errors.full_messages, status: 422 }
+      render json: { errors: @user.errors.full_messages }, status: 422
     end
   end
 
