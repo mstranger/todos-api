@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   apipie
+
   resources :users
 
   namespace :api, defaults: { format: :json } do

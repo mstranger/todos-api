@@ -1,33 +1,14 @@
 class Api::V1::TasksController < Api::V1::ApiController
-  # resource_description do
-  #   short "Site members"
-  #   formats ['json']
-  #   param :id, Integer, :desc => "User ID", :required => false
-  #   param :resource_param, Hash, :desc => 'Param description for all methods' do
-  #     param :ausername, String, :desc => "Username for login", :required => true
-  #     param :apassword, String, :desc => "Password for login", :required => true
-  #   end
-  #   api_version "development"
-  #   error 404, "Missing"
-  #   error 500, "Server crashed for some <%= reason %>", :meta => {:anything => "you can think of"}
-  #   error :unprocessable_entity, "Could not save the entity."
-  #   returns :code => 403 do
-  #     property :reason, String, :desc => "Why this was forbidden"
-  #   end
-  #   meta :author => {:name => 'John', :surname => 'Doe'}
-  #   deprecated false
-  # end
-
-  def_param_group :address do
-    param :street, String, "Street name"
-    param :number, Integer
-    param :zip, String
+  resource_description do
+    api_versions "v1"
+    app_info false
+    short "Todos actions"
+    error 404, "Missing"
   end
 
-  def_param_group :user do
-    param :user, Hash, :required => true, :action_aware => true do
-      param :name, String, "Name of the user", :required => true
-      param_group :address
+  def_param_group :data do
+    param :data, Hash, required: true do
+      param :title, String, "What are we going to do", required: true
     end
   end
 
@@ -36,19 +17,19 @@ class Api::V1::TasksController < Api::V1::ApiController
 
   skip_before_action :authenticate_request, only: [:index]
 
-  api!
+  api! "All tasks"
   def index
     @tasks = Task.all
   end
 
-  # api :GET, "/v1/tasks/:id"
-  # param :id, :number, desc: "id of the requested task"
-  api!
+  api! "Show task"
+  param :id, :number, required: true
   def show
     @task = Task.find(params[:id])
   end
 
-  api!
+  api! "Create new task"
+  param_group :data
   def create
     @task = Task.new(task_params)
     @task.save!
@@ -56,7 +37,9 @@ class Api::V1::TasksController < Api::V1::ApiController
     render json: :ok, status: :created
   end
 
-  api!
+  api! "Update task"
+  param :id, :number, required: true
+  param_group :data
   def update
     @task = Task.find(params[:id])
     @task.update!(task_params)
@@ -64,7 +47,8 @@ class Api::V1::TasksController < Api::V1::ApiController
     render json: :ok
   end
 
-  api!
+  api! "Delete task"
+  param :id, :number, required: true
   def destroy
     @task = Task.find(params[:id])
     @task.destroy

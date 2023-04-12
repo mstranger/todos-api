@@ -1,4 +1,8 @@
 class UsersController < ApplicationController
+  resource_description do
+    short "Users sign up"
+  end
+
   skip_before_action :authenticate_request, only: [:create]
   before_action :set_user, only: [:show, :update, :destroy]
 
@@ -11,6 +15,9 @@ class UsersController < ApplicationController
     render json: @user
   end
 
+  api! "New user registration"
+  param :email, String, required: true
+  param :password, String, required: true
   def create
     @user = User.new(user_params)
 
@@ -31,6 +38,9 @@ class UsersController < ApplicationController
     @user.destroy
   end
 
+  # TODO: apipie jwt auth info
+
+  api! "Current user info"
   def me
     render json: @current_user
   end
