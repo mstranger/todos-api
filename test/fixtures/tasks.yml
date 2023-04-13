@@ -1,11 +1,11 @@
 one:
-  title: MyString
-  deadline: MyString
-  prior: MyString
+  title: Do this
+  deadline: nil
+  priority: nil
   completed: false
 
 two:
-  title: MyString
-  deadline: MyString
-  prior: MyString
+  title: Do that
+  deadline: nil
+  priority: nil
   completed: false
