@@ -1,23 +1,23 @@
 class UsersController < ApplicationController
+  skip_before_action :authenticate_request, only: [:create]
+
   resource_description do
     short "Users sign up"
   end
 
-  skip_before_action :authenticate_request, only: [:create]
-  before_action :set_user, only: [:show, :update, :destroy]
-
-  def index
-    @users = User.all
-    render json: @users
+  def_param_group :user_data do
+    param :email, String, required: true
+    param :password, String, required: true
   end
 
-  def show
-    render json: @user
+  def_param_group :jwt_info do
+    description "Need to use jwt token for authentication"
+    example "'Authorization' => 'HS256 foo.bar.token'"
   end
 
   api! "New user registration"
-  param :email, String, required: true
-  param :password, String, required: true
+  param_group :user_data
+  #
   def create
     @user = User.new(user_params)
 
@@ -28,19 +28,22 @@ class UsersController < ApplicationController
     end
   end
 
+  api :PUT, "/users", "Update user info"
+  api :PATCH, "/users", "Update user info"
+  param_group :user_data
+  param_group :jwt_info
+  #
   def update
-    unless @user.update(user_params)
-      render json: { errors: @user.errors.full_messages }, status: 422
+    if @current_user.update(user_params)
+      render json: :ok
+    else
+      render json: { errors: @current_user.errors.full_messages }, status: 422
     end
   end
 
-  def destroy
-    @user.destroy
-  end
-
-  # TODO: apipie jwt auth info
-
   api! "Current user info"
+  param_group :jwt_info
+  #
   def me
     render json: @current_user
   end
@@ -49,9 +52,5 @@ class UsersController < ApplicationController
 
   def user_params
     params.permit(:email, :password)
-  end
-
-  def set_user
-    @user = User.find(params[:id])
   end
 end

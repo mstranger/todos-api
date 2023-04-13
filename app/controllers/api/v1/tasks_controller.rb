@@ -1,7 +1,7 @@
 class Api::V1::TasksController < Api::V1::ApiController
   resource_description do
     api_versions "v1"
-    app_info false
+    app_info ""
     short "Todos actions"
     error 404, "Missing"
   end
