@@ -8,6 +8,7 @@ class AuthenticationController < ApplicationController
   api! "User login"
   param :email, String, required: true
   param :password, String, required: true
+  #
   def login
     @user = User.find_by_email(params[:email])
     if @user&.authenticate(params[:password])

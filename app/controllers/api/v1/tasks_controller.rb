@@ -1,4 +1,9 @@
 class Api::V1::TasksController < Api::V1::ApiController
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
+
+  skip_before_action :authenticate_request, only: [:index]
+
   resource_description do
     api_versions "v1"
     app_info ""
@@ -12,24 +17,22 @@ class Api::V1::TasksController < Api::V1::ApiController
     end
   end
 
-  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
-  rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
-
-  skip_before_action :authenticate_request, only: [:index]
-
   api! "All tasks"
+  #
   def index
     @tasks = Task.all
   end
 
   api! "Show task"
   param :id, :number, required: true
+  #
   def show
     @task = Task.find(params[:id])
   end
 
   api! "Create new task"
   param_group :data
+  #
   def create
     @task = Task.new(task_params)
     @task.save!
@@ -40,6 +43,7 @@ class Api::V1::TasksController < Api::V1::ApiController
   api! "Update task"
   param :id, :number, required: true
   param_group :data
+  #
   def update
     @task = Task.find(params[:id])
     @task.update!(task_params)
@@ -49,6 +53,7 @@ class Api::V1::TasksController < Api::V1::ApiController
 
   api! "Delete task"
   param :id, :number, required: true
+  #
   def destroy
     @task = Task.find(params[:id])
     @task.destroy
