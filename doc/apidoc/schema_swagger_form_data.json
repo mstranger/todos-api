@@ -1,0 +1,344 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "TodoApi (params in:formData)",
+    "description": "",
+    "version": "v1",
+    "x-copyright": null
+  },
+  "basePath": "/api",
+  "consumes": [
+    "application/x-www-form-urlencoded",
+    "multipart/form-data"
+  ],
+  "paths": {
+    "/api/v1/tasks": {
+      "get": {
+        "tags": [
+          "tasks"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "operationId": "get_api_v1_tasks",
+        "summary": "All tasks",
+        "parameters": [
+
+        ],
+        "responses": {
+          "404": {
+            "description": "Missing"
+          }
+        },
+        "description": ""
+      },
+      "post": {
+        "tags": [
+          "tasks"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "operationId": "post_api_v1_tasks",
+        "summary": "Create new task",
+        "parameters": [
+          {
+            "name": "data[title]",
+            "type": "string",
+            "in": "formData",
+            "required": true,
+            "description": "What are we going to do"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Missing"
+          }
+        },
+        "description": ""
+      }
+    },
+    "/api/v1/tasks/{id}": {
+      "get": {
+        "tags": [
+          "tasks"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "operationId": "get_api_v1_tasks_id",
+        "summary": "Show task",
+        "parameters": [
+          {
+            "name": "id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Missing"
+          }
+        },
+        "description": ""
+      },
+      "patch": {
+        "tags": [
+          "tasks"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "operationId": "patch_api_v1_tasks_id",
+        "summary": "Update task",
+        "parameters": [
+          {
+            "name": "data[title]",
+            "type": "string",
+            "in": "formData",
+            "required": true,
+            "description": "What are we going to do"
+          },
+          {
+            "name": "id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Missing"
+          }
+        },
+        "description": ""
+      },
+      "put": {
+        "tags": [
+          "tasks"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "operationId": "put_api_v1_tasks_id",
+        "summary": "Update task",
+        "parameters": [
+          {
+            "name": "data[title]",
+            "type": "string",
+            "in": "formData",
+            "required": true,
+            "description": "What are we going to do"
+          },
+          {
+            "name": "id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Missing"
+          }
+        },
+        "description": ""
+      },
+      "delete": {
+        "tags": [
+          "tasks"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "operationId": "delete_api_v1_tasks_id",
+        "summary": "Delete task",
+        "parameters": [
+          {
+            "name": "id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Missing"
+          }
+        },
+        "description": ""
+      }
+    },
+    "/users": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "operationId": "post_users",
+        "summary": "New user registration",
+        "parameters": [
+          {
+            "name": "password",
+            "type": "string",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "name": "email",
+            "type": "string",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "description": ""
+      },
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "operationId": "put_users",
+        "summary": "Update user info",
+        "parameters": [
+          {
+            "name": "password",
+            "type": "string",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "name": "email",
+            "type": "string",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "description": "Need to use jwt token for authentication"
+      },
+      "patch": {
+        "tags": [
+          "users"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "operationId": "patch_users",
+        "summary": "Update user info",
+        "parameters": [
+          {
+            "name": "password",
+            "type": "string",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "name": "email",
+            "type": "string",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "description": "Need to use jwt token for authentication"
+      }
+    },
+    "/me": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "operationId": "get_me",
+        "summary": "Current user info",
+        "parameters": [
+
+        ],
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "description": "Need to use jwt token for authentication"
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "authentication"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "operationId": "post_auth_login",
+        "summary": "User login",
+        "parameters": [
+          {
+            "name": "password",
+            "type": "string",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "name": "email",
+            "type": "string",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "description": ""
+      }
+    }
+  },
+  "definitions": {
+  },
+  "schemes": [
+    "https"
+  ],
+  "tags": [
+
+  ],
+  "securityDefinitions": {
+  },
+  "security": [
+
+  ],
+  "host": "localhost:3000"
+}
