@@ -1,21 +1,21 @@
 require "test_helper"
 
 class AuthenticationTest < ActionDispatch::IntegrationTest
+  setup { @user = users(:john) }
+
   test "login success" do
-    post auth_login_path, params: { email: "jdoe@mail.com", password: "password" }
+    token = authenticate! @user
+    data = decode(token)
 
-    assert_equal response.status, 200
-
-    token = JSON.parse(response.body).dig("token")
-    data = JWT.decode(token, Rails.application.secret_key_base).first
-
-    assert_equal User.last.id, data["user_id"]
+    assert_equal 200, response.status
+    assert_equal @user.id, data["user_id"]
   end
 
   test "login fail" do
-    post auth_login_path, params: { email: "some@mail.com", password: "password" }
+    @user.email = "other@mail.com"
+    authenticate! @user
 
     assert_equal 401, response.status
-    assert_equal "Invalid email or password", JSON.parse(response.body).dig("error")
+    assert_equal t("user.errors.auth_fail"), parse_resp["error"]
   end
 end
