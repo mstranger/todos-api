@@ -50,3 +50,7 @@ group :development do
   # gem "spring"
   gem "annotate"
 end
+
+group :test do
+  gem "minitest-reporters"
+end
