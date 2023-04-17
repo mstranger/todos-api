@@ -9,12 +9,13 @@
 #  completed  :boolean          default(FALSE)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  user_id    :integer          not null
 #
 require "test_helper"
 
 class TaskTest < ActiveSupport::TestCase
   setup do
-    @task = Task.new(title: "example")
+    @task = Task.new(title: "example", user: users(:john))
   end
 
   test "valid task" do

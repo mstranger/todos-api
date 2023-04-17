@@ -9,7 +9,10 @@
 #  completed  :boolean          default(FALSE)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  user_id    :integer          not null
 #
 class Task < ApplicationRecord
   validates :title, presence: true, uniqueness: true, length: { minimum: 3 }
+
+  belongs_to :user
 end
