@@ -1,5 +1,7 @@
 en:
   user:
     errors:
+      not_found: "Record not found"
       auth_fail: "Invalid email or password"
       login_first: "Please, sign in first"
+      not_permitted: "Not permitted"

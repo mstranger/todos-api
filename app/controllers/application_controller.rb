@@ -8,7 +8,6 @@ class ApplicationController < ActionController::API
   private
 
   def authenticate_request
-    # debugger
     header = request.headers["Authorization"]
     header = header.split(" ").last if header
     decoded = jwt_decode(header)
@@ -16,6 +15,10 @@ class ApplicationController < ActionController::API
   end
 
   def unauthorized
-    render json: { error: "Please, sign in first" }, status: :unauthorized
+    render json: { error: t("user.errors.login_first") }, status: :unauthorized
+  end
+
+  def t(msg, **args)
+    I18n.translate(msg, **args)
   end
 end
