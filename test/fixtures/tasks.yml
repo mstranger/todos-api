@@ -1,13 +1,13 @@
 one:
   title: Do this
   deadline: nil
-  priority: nil
+  priority: 0
   completed: false
   user: john
 
 two:
   title: Do that
   deadline: nil
-  priority: nil
+  priority: 0
   completed: false
   user: mike

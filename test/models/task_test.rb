@@ -40,4 +40,10 @@ class TaskTest < ActiveSupport::TestCase
     @task.title = tasks(:one).title
     refute @task.valid?
   end
+
+  test "invalid without priority" do
+    @task.priority = nil
+    refute @task.valid?
+    refute_nil @task.errors.messages.fetch(:priority, nil)
+  end
 end

@@ -13,6 +13,7 @@
 #
 class Task < ApplicationRecord
   validates :title, presence: true, uniqueness: true, length: { minimum: 3 }
+  validates :priority, presence: true
 
   belongs_to :user
 end
