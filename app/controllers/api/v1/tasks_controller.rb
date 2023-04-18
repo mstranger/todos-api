@@ -71,6 +71,18 @@ class Api::V1::TasksController < Api::V1::ApiController
     end
   end
 
+  api! "Toggle completed"
+  param :id, :number, required: true
+  #
+  def toggle
+    @task = Task.find(params[:id])
+    if @task.user == @current_user
+      @task.update(completed: !@task.completed)
+    else
+      render json: t("user.errors.not_permitted"), status: :unauthorized
+    end
+  end
+
   private
 
   def task_params

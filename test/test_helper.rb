@@ -7,13 +7,11 @@ require_relative "custom_helper"
 # Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
 class ActiveSupport::TestCase
-  # Run tests in parallel with specified workers
   parallelize(workers: :number_of_processors)
 
-  # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all
 
-  # Add more helper methods to be used by all tests here...
+  # make_my_diffs_pretty!
 end
 
 class ActionDispatch::IntegrationTest

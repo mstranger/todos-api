@@ -11,8 +11,8 @@ class Api::V1::TasksControllerTest < ActionDispatch::IntegrationTest
     get api_v1_tasks_path, headers: { "Authorization" => "HS256 #{@token}" }
 
     assert_equal 200, response.status
-    assert response.body.include?(tasks(:one).title)
-    refute response.body.include?(tasks(:two).title)
+    assert_includes response.body, tasks(:one).title
+    refute_includes response.body, tasks(:two).title
   end
 
   test "GET index fail" do
@@ -131,5 +131,28 @@ class Api::V1::TasksControllerTest < ActionDispatch::IntegrationTest
 
     assert_equal 401, response.status
     assert_equal t("user.errors.not_permitted"), response.body
+  end
+
+  # toggle completed status
+  test "TOGGLE task success" do
+    task = tasks(:one)
+
+    post toggle_api_v1_task_path(task), headers: {"Authorization": "HS256 #{@token}"}
+
+    assert_equal 200, response.status
+    assert task.reload.completed
+  end
+
+  test "TOGGLE task fail" do
+    task = tasks(:one)
+
+    post toggle_api_v1_task_path(task)
+    assert_equal 401, response.status
+
+    task = tasks(:two)
+    post toggle_api_v1_task_path(task), headers: {"Authorization": "HS256 #{@token}"}
+
+    assert_equal 401, response.status
+    refute task.reload.completed
   end
 end
