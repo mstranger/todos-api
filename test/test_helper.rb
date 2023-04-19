@@ -6,6 +6,11 @@ require_relative "custom_helper"
 # require "minitest/reporters"
 # Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
+require "json_matchers/minitest/assertions"
+
+JsonMatchers.schema_root = "test/support/api/schemas"
+Minitest::Test.include(JsonMatchers::Minitest::Assertions)
+
 class ActiveSupport::TestCase
   parallelize(workers: :number_of_processors)
 

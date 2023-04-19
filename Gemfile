@@ -53,4 +53,5 @@ end
 
 group :test do
   gem "minitest-reporters"
+  gem "json_matchers"
 end

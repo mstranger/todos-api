@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "id": "file:/tasks/index.json#",
+  "title": "tasks",
+  "description": "User's tasks",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "array",
+      "title": "taskItem",
+      "items": {
+        "$ref": "file:/task.json#"
+      }
+    }
+  },
+  "required": [
+    "data"
+  ],
+  "additionalProperties": false
+}
