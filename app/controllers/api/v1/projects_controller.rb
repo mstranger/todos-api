@@ -7,7 +7,7 @@ class Api::V1::ProjectsController < ApplicationController
     @project = Project.find(params[:id])
 
     unless @project.user == @current_user
-      render json: t("user.errors.not_permitted"), status: :unauthorized
+      render json: t("project.errors.not_permitted"), status: :forbidden
     end
   end
 
@@ -26,7 +26,7 @@ class Api::V1::ProjectsController < ApplicationController
       project.update!(project_params)
       render json: :ok
     else
-      render json: t("user.errors.not_permitted"), status: :unauthorized
+      render json: t("project.errors.not_permitted"), status: :forbidden
     end
   end
 
@@ -37,7 +37,7 @@ class Api::V1::ProjectsController < ApplicationController
       project.destroy
       render json: :ok
     else
-      render json: t("user.errors.not_permitted"), status: :unauthorized
+      render json: t("project.errors.not_permitted"), status: :forbidden
     end
   end
 

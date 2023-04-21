@@ -1,0 +1,5 @@
+en:
+  project:
+    errors:
+      forbidden: "Not enough rigths"
+      not_permitted: "Not permitted"

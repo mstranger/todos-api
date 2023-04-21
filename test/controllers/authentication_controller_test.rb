@@ -7,7 +7,7 @@ class AuthenticationControllerTest < ActionDispatch::IntegrationTest
     token = authenticate! @user
     data = decode(token)
 
-    assert_equal 200, response.status
+    assert_response 200
     assert_equal @user.id, data["user_id"]
   end
 
@@ -15,7 +15,7 @@ class AuthenticationControllerTest < ActionDispatch::IntegrationTest
     @user.email = "other@mail.com"
     authenticate! @user
 
-    assert_equal 401, response.status
+    assert_response 401
     assert_equal t("user.errors.auth_fail"), parse_resp["error"]
   end
 end
