@@ -18,16 +18,18 @@ class Api::V1::TasksController < Api::V1::ApiController
   # api! "All tasks"
   #
   def index
-    # @tasks = Task.where(user_id: @current_user.id)
+    @project = Project.find(params[:project_id])
+    @tasks = @project.tasks
   end
 
   # api! "Show task"
   # param :id, :number, required: true
   #
   def show
+    @project = Project.find(params[:project_id])
     @task = Task.find(params[:id])
 
-    unless @task.user == @current_user
+    unless @task.project == @project
       render json: t("user.errors.not_permitted"), status: :unauthorized
     end
   end
@@ -36,7 +38,8 @@ class Api::V1::TasksController < Api::V1::ApiController
   # param_group :data
   #
   def create
-    @task = Task.new(task_params.merge(user_id: @current_user.id))
+    @project = Project.find(params[:project_id])
+    @task = Task.new(task_params.merge(project_id: @project.id))
     @task.save!
 
     render json: :ok, status: :created
@@ -47,9 +50,10 @@ class Api::V1::TasksController < Api::V1::ApiController
   # param_group :data
   #
   def update
+    @project = Project.find(params[:project_id])
     @task = Task.find(params[:id])
 
-    if @task.user == @current_user
+    if @task.project == @project
       @task.update!(task_params)
       render json: :ok
     else
@@ -61,9 +65,10 @@ class Api::V1::TasksController < Api::V1::ApiController
   # param :id, :number, required: true
   #
   def destroy
+    @project = Project.find(params[:project_id])
     @task = Task.find(params[:id])
 
-    if @task.user == @current_user
+    if @task.project == @project
       @task.destroy
       render json: :ok
     else
@@ -74,14 +79,16 @@ class Api::V1::TasksController < Api::V1::ApiController
   # api! "Toggle completed"
   # param :id, :number, required: true
   #
-  # def toggle
-  #   @task = Task.find(params[:id])
-  #   if @task.user == @current_user
-  #     @task.update(completed: !@task.completed)
-  #   else
-  #     render json: t("user.errors.not_permitted"), status: :unauthorized
-  #   end
-  # end
+  def toggle
+    @project = Project.find(params[:project_id])
+    @task = Task.find(params[:id])
+
+    if @task.user == @current_user
+      @task.update(completed: !@task.completed)
+    else
+      render json: t("user.errors.not_permitted"), status: :unauthorized
+    end
+  end
 
   private
 

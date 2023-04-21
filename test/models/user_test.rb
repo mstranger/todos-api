@@ -33,7 +33,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "invalid with existing email" do
-    @user.email = "jdoe@mail.com"
+    @user.email = users(:john).email
     refute @user.valid?
   end
 end

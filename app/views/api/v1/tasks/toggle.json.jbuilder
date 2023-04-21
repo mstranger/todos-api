@@ -1,1 +1,1 @@
-json.partial! @task, as: :task
+json.partial! @task, as: :task, project: @project
