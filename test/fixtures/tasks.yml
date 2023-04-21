@@ -3,11 +3,11 @@ one:
   deadline: nil
   priority: 0
   completed: false
-  user: john
+  project: one
 
 two:
   title: Do that
   deadline: nil
   priority: 0
   completed: false
-  user: mike
+  project: two

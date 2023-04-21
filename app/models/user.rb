@@ -14,5 +14,5 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true
 
-  has_many :tasks, dependent: :destroy
+  has_many :projects, dependent: :destroy
 end
