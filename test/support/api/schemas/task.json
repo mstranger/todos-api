@@ -27,15 +27,57 @@
               "type": "boolean"
             }
           },
-          "required": ["title", "priority", "completed"]
+          "required": [
+            "title",
+            "priority",
+            "completed"
+          ]
+        },
+        "relationships": {
+          "type": "object",
+          "properties": {
+            "project": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "links": {
+                  "type": "object",
+                  "properties": {
+                    "related": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": [
+            "project"
+          ]
         },
         "links": {
           "type": "object"
         }
       },
-      "required": ["id", "type", "attributes"]
+      "required": [
+        "id",
+        "type",
+        "attributes"
+      ]
     }
   },
-  "required": ["data"],
+  "required": [
+    "data"
+  ],
   "additionalProperties": false
 }

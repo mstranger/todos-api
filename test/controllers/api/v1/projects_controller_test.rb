@@ -48,7 +48,8 @@ class Api::V1::ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_equal new_name, @project.reload.name
   end
 
-  # TODO: also delete tasks
+  # TODO: check also deleting coresponding tasks
+
   test "DELETE destroy" do
     assert_difference("Project.count", -1) do
       delete api_v1_project_path(@project),

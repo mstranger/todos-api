@@ -11,6 +11,8 @@ class Api::V1::ProjectsController < ApplicationController
     end
   end
 
+  # TODO: parse create errors json
+
   def create
     project = Project.new(project_params)
     project.user = @current_user

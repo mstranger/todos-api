@@ -21,15 +21,68 @@
               "type": "string"
             }
           },
-          "required": ["name"]
+          "required": [
+            "name"
+          ]
+        },
+        "relationships": {
+          "type": "object",
+          "properties": {
+            "user": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            },
+            "tasks": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": [
+            "user",
+            "tasks"
+          ]
         },
         "links": {
           "type": "object"
         }
       },
-      "required": ["id", "type", "attributes"]
+      "required": [
+        "id",
+        "type",
+        "attributes",
+        "relationships"
+      ]
     }
   },
-  "required": ["data"],
+  "required": [
+    "data"
+  ],
   "additionalProperties": false
 }
