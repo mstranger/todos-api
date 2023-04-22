@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema#",
-  "id": "file:/task.json#",
-  "title": "task",
-  "description": "Task item",
+  "id": "file:/project.json#",
+  "title": "project",
+  "description": "Project item",
   "type": "object",
   "properties": {
     "data": {
@@ -17,17 +17,11 @@
         "attributes": {
           "type": "object",
           "properties": {
-            "title": {
+            "name": {
               "type": "string"
-            },
-            "priority": {
-              "type": "number"
-            },
-            "completed": {
-              "type": "boolean"
             }
           },
-          "required": ["title", "priority", "completed"]
+          "required": ["name"]
         },
         "links": {
           "type": "object"

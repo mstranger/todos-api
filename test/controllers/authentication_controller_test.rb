@@ -9,6 +9,7 @@ class AuthenticationControllerTest < ActionDispatch::IntegrationTest
 
     assert_response 200
     assert_equal @user.id, data["user_id"]
+    assert_matches_json_schema response, "users/login"
   end
 
   test "login fail" do

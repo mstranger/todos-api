@@ -10,14 +10,12 @@ class Api::V1::TasksControllerTest < ActionDispatch::IntegrationTest
 
   ### success
 
-  # TODO: json schema test
-
   test "GET index" do
     get api_v1_project_tasks_path(@project),
         headers: { "Authorization" => "HS256 #{@token}" }
 
     assert_response :ok
-    # assert_matches_json_schema response, "task"
+    assert_matches_json_schema response, "tasks/index"
   end
 
   test "SHOW task" do
@@ -25,7 +23,7 @@ class Api::V1::TasksControllerTest < ActionDispatch::IntegrationTest
         headers: { "Authorization" => "HS256 #{@token}" }
 
     assert_response :ok
-    # assert_matches_json_schema response, "task"
+    assert_matches_json_schema response, "task"
   end
 
   test "POST tasks" do
