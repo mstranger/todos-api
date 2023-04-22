@@ -15,8 +15,12 @@ Rails.application.routes.draw do
       #   resources :projects, shallow: true
       # end
 
+      # TODO: shallow ?
+
       resources :projects do
-        resources :tasks
+        resources :tasks do
+          post "toggle", on: :member
+        end
       end
     end
   end

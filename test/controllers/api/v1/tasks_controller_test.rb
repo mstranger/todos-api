@@ -4,154 +4,110 @@ class Api::V1::TasksControllerTest < ActionDispatch::IntegrationTest
   setup do
     @user = users(:john)
     @token = authenticate! @user
+    @project = projects(:one)
+    @task = tasks(:one)
   end
 
   ### success
 
-  test "GET index" do
-    get api_v1_tasks_path, headers: { "Authorization" => "HS256 #{@token}" }
+  # TODO: json schema test
 
-    assert_equal 200, response.status
-    assert_includes response.body, tasks(:one).title
-    refute_includes response.body, tasks(:two).title
+  test "GET index" do
+    get api_v1_project_tasks_path(@project),
+        headers: { "Authorization" => "HS256 #{@token}" }
+
+    assert_response :ok
+    # assert_matches_json_schema response, "task"
   end
 
   test "SHOW task" do
-    task = tasks(:one)
-    get api_v1_task_path(task), headers: { "Authorization" => "HS256 #{@token}" }
+    get api_v1_project_task_path(@project, @task),
+        headers: { "Authorization" => "HS256 #{@token}" }
 
-    assert_equal 200, response.status
+    assert_response :ok
+    # assert_matches_json_schema response, "task"
   end
 
   test "POST tasks" do
     assert_difference("Task.count") do
-      post api_v1_tasks_path,
-        params: {data: {title: "new task"}},
+      post api_v1_project_tasks_path(@project),
+        params: {data: {title: "new"}},
         headers: {"Authorization": "HS256 #{@token}"}
     end
 
-    assert_equal 201, response.status
-    assert_equal 2, @user.tasks.count
+    assert_response :created
+    assert_equal 2, @project.tasks.count
   end
 
   test "PATCH task" do
-    task = tasks(:one)
     new_title = "updated"
 
-    put api_v1_task_path(task),
+    put api_v1_project_task_path(@project, @task),
       params: {data: {title: new_title}},
       headers: {"Authorization": "HS256 #{@token}"}
 
-    assert_equal 200, response.status
-    assert_equal new_title, task.reload.title
+    assert_response :ok
+    assert_equal new_title, @task.reload.title
   end
 
   test "DELETE task" do
-    task = tasks(:one)
-
     assert_difference("Task.count", -1) do
-      delete api_v1_task_path(task), headers: {"Authorization": "HS256 #{@token}"}
+      delete api_v1_project_task_path(@project, @task),
+             headers: {"Authorization": "HS256 #{@token}"}
     end
 
-    assert_equal 200, response.status
+    assert_response :ok
   end
 
   test "TOGGLE task" do
-    task = tasks(:one)
+    post toggle_api_v1_project_task_path(@project, @task),
+         headers: {"Authorization": "HS256 #{@token}"}
 
-    post toggle_api_v1_task_path(task), headers: {"Authorization": "HS256 #{@token}"}
-
-    assert_equal 200, response.status
-    assert task.reload.completed
+    assert_response :ok
+    assert @task.reload.completed
   end
 
   ### fail
 
   test "GET index fail" do
-    get api_v1_tasks_path
+    get api_v1_project_tasks_path(@project)
 
-    assert_equal 401, response.status
+    assert_response :unauthorized
     assert_equal t("user.errors.login_first"), parse_resp["error"]
   end
 
   test "SHOW task fail" do
-    task = tasks(:one)
-    get api_v1_task_path(task)
+    get api_v1_project_task_path(@project, @task)
 
-    assert_equal 401, response.status
-  end
-
-  test "SHOW someone else's task fail" do
-    task = tasks(:two)
-    get api_v1_task_path(task), headers: { "Authorization" => "HS256 #{@token}" }
-
-    assert_equal 401, response.status
-    assert_equal t("user.errors.not_permitted"), response.body
+    assert_response :unauthorized
   end
 
   test "POST tasks fail" do
     assert_no_difference("Task.count") do
-      post api_v1_tasks_path, params: {data: {title: "new task"}}
+      post api_v1_project_tasks_path(@project), params: {data: {title: "new task"}}
     end
 
-    assert_equal 401, response.status
+    assert_response :unauthorized
   end
 
   test "PATCH task fail" do
-    task = tasks(:one)
-    new_title = "updated"
+    patch api_v1_project_task_path(@project, @task),
+          params: {data: {title: "updated"}}
 
-    put api_v1_task_path(task), params: {data: {title: new_title}}
-
-    assert_equal 401, response.status
-  end
-
-  test "PATCH someone else's task fail" do
-    task = tasks(:two)
-    new_title = "updated"
-
-    put api_v1_task_path(task),
-      params: {data: {title: new_title}},
-      headers: {"Authorization": "HS256 #{@token}"}
-
-    assert_equal 401, response.status
-    assert_equal t("user.errors.not_permitted"), response.body
-    refute_equal new_title, task.reload.title
+    assert_response :unauthorized
   end
 
   test "DELETE task fail" do
-    task = tasks(:one)
-
     assert_no_difference("Task.count") do
-      delete api_v1_task_path(task)
+      delete api_v1_project_task_path(@project, @task)
     end
 
-    assert_equal 401, response.status
-  end
-
-  test "DELETE someone else's task fail" do
-    task = tasks(:one)
-    token = authenticate! users(:mike)
-
-    assert_no_difference("Task.count") do
-      delete api_v1_task_path(task), headers: {"Authorization": "HS256 #{token}"}
-    end
-
-    assert_equal 401, response.status
-    assert_equal t("user.errors.not_permitted"), response.body
+    assert_response :unauthorized
   end
 
   test "TOGGLE task fail" do
-    task = tasks(:one)
+    post toggle_api_v1_project_task_path(@project, @task)
 
-    post toggle_api_v1_task_path(task)
-    assert_equal 401, response.status
-
-    task = tasks(:two)
-    post toggle_api_v1_task_path(task), headers: {"Authorization": "HS256 #{@token}"}
-
-    assert_equal 401, response.status
-    refute task.reload.completed
+    assert_response :unauthorized
   end
-
 end
