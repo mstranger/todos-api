@@ -22,8 +22,9 @@ class TaskTest < ActiveSupport::TestCase
     assert @task.valid?
   end
 
-  test "associations" do
+  test "relationships" do
     assert_respond_to @task, :project, "belongs to project"
+    assert_respond_to @task, :comments, "has many projects"
   end
 
   test "invalid without title" do

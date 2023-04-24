@@ -36,4 +36,9 @@ class UserTest < ActiveSupport::TestCase
     @user.email = users(:john).email
     refute @user.valid?
   end
+
+  test "relationships" do
+    assert_respond_to @user, :projects, "has many projects"
+    assert_respond_to @user, :comments, "has many comments"
+  end
 end
