@@ -1,7 +1,4 @@
 class Api::V1::TasksController < Api::V1::ApiController
-  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
-  rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
-
   # resource_description do
   #   api_versions "v1"
   #   app_info ""
@@ -122,13 +119,5 @@ class Api::V1::TasksController < Api::V1::ApiController
 
   def task_params
     params.require(:data).permit!
-  end
-
-  def record_not_found
-    render json: { error: t("user.errors.not_found") }, status: :not_found
-  end
-
-  def record_invalid
-    render json: { errors: @task.errors.full_messages }, status: :unprocessable_entity
   end
 end

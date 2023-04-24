@@ -48,8 +48,6 @@ class Api::V1::ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_equal new_name, @project.reload.name
   end
 
-  # TODO: check also deleting coresponding tasks
-
   test "DELETE destroy" do
     assert_difference("Project.count", -1) do
       delete api_v1_project_path(@project),
@@ -59,37 +57,55 @@ class Api::V1::ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
   end
 
+  test "DELETE destroy dependent destroy" do
+    count = @project.tasks.count
+
+    assert_difference("Task.count", -count) do
+      delete api_v1_project_path(@project),
+             headers: {"Authorization": "HS256 #{@token}"}
+    end
+  end
+
   ### fail
 
-  test "GET index fail" do
+  test "GET index fail no auth" do
     get api_v1_projects_path
 
     assert_response 401
     assert_equal t("user.errors.login_first"), parse_resp["error"]
   end
 
-  test "GET show fail" do
+  test "GET show fail no auth" do
     get api_v1_project_path(@project)
 
     assert_response 401
     assert_equal t("user.errors.login_first"), parse_resp["error"]
   end
 
-  test "POST create fail" do
+  test "POST create fail no auth" do
     post api_v1_projects_path, params: {data: {name: "example"}}
 
     assert_response 401
     assert_equal t("user.errors.login_first"), parse_resp["error"]
   end
 
-  test "PATCH update fail" do
+  test "POST create fail already exists" do
+    post api_v1_projects_path,
+          headers: {"Authorization": "HS256 #{@token}"},
+          params: {data: {name: @project.name}}
+
+    assert_response 422
+    assert_matches_json_schema response, "error"
+  end
+
+  test "PATCH update fail no auth" do
     patch api_v1_project_path(@project), params: {data: {name: "edited"}}
 
     assert_response 401
     assert_equal t("user.errors.login_first"), parse_resp["error"]
   end
 
-  test "DELETE destroy fail" do
+  test "DELETE destroy fail no auth" do
     delete api_v1_project_path(@project)
 
     assert_response 401

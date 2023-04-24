@@ -67,20 +67,28 @@ class Api::V1::TasksControllerTest < ActionDispatch::IntegrationTest
 
   ### fail
 
-  test "GET index fail" do
+  test "GET index fail no auth" do
     get api_v1_project_tasks_path(@project)
 
     assert_response :unauthorized
     assert_equal t("user.errors.login_first"), parse_resp["error"]
   end
 
-  test "SHOW task fail" do
+  test "SHOW task fail no auth" do
     get api_v1_project_task_path(@project, @task)
 
     assert_response :unauthorized
   end
 
-  test "POST tasks fail" do
+  test "SHOW task fail not found" do
+    get api_v1_project_task_path(@project, @task.id + 123),
+        headers: { "Authorization" => "HS256 #{@token}" }
+
+    assert_response :not_found
+    assert_matches_json_schema response, "error"
+  end
+
+  test "POST tasks fail no auth" do
     assert_no_difference("Task.count") do
       post api_v1_project_tasks_path(@project), params: {data: {title: "new task"}}
     end
@@ -88,14 +96,23 @@ class Api::V1::TasksControllerTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
   end
 
-  test "PATCH task fail" do
+  test "POST tasks fail already exists" do
+    post api_v1_project_tasks_path(@project),
+      params: {data: {title: @task.title}},
+      headers: {"Authorization": "HS256 #{@token}"}
+
+    assert_response :unprocessable_entity
+    assert_matches_json_schema response, "error"
+  end
+
+  test "PATCH task fail no auth" do
     patch api_v1_project_task_path(@project, @task),
           params: {data: {title: "updated"}}
 
     assert_response :unauthorized
   end
 
-  test "DELETE task fail" do
+  test "DELETE task fail no auth" do
     assert_no_difference("Task.count") do
       delete api_v1_project_task_path(@project, @task)
     end
@@ -103,7 +120,7 @@ class Api::V1::TasksControllerTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
   end
 
-  test "TOGGLE task fail" do
+  test "TOGGLE task fail no auth" do
     post toggle_api_v1_project_task_path(@project, @task)
 
     assert_response :unauthorized
