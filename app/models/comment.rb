@@ -10,7 +10,8 @@
 #  updated_at :datetime         not null
 #
 class Comment < ApplicationRecord
-  validates :content, presence: true
+  # TODO: remove unique
+  validates :content, presence: true, uniqueness: true
 
   belongs_to :task
   belongs_to :user

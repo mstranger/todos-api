@@ -19,6 +19,17 @@ json.data do
         json.related api_v1_project_url(project)
       end
     end
+
+    json.comments do
+      json.data task.comments do |comment|
+        json.type :comments
+        json.id comment.id
+      end
+
+      json.links do
+        json.related api_v1_project_task_comments_url(project, task)
+      end
+    end
   end
 
   json.links do

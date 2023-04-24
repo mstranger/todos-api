@@ -7,18 +7,13 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
-      # resources :tasks do
-      #   post "toggle", on: :member
-      # end
-
-      # resources :users do
-      #   resources :projects, shallow: true
-      # end
 
       # TODO: shallow ?
 
       resources :projects do
         resources :tasks do
+          resources :comments, only: [:index, :create, :destroy]
+
           post "toggle", on: :member
         end
       end
