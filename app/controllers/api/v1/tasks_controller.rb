@@ -1,18 +1,35 @@
 class Api::V1::TasksController < Api::V1::ApiController
-  # resource_description do
-  #   api_versions "v1"
-  #   app_info ""
-  #   short "Todos actions"
-  #   error 404, "Missing"
-  # end
+  # NOTE: it seems inheritance is not working for now
+  # see https://github.com/Apipie/apipie-rails/issues/488
 
-  # def_param_group :data do
-  #   param :data, Hash, required: true do
-  #     param :title, String, "What are we going to do", required: true
-  #   end
-  # end
+  resource_description do
+    api_versions "v1"
+    app_info ""
+    short "Tasks actions"
+    error 401, "Need to login first"
+    error 403, "No access to perform action"
+    error 404, "Missing entity"
+  end
 
-  # api! "All tasks"
+  def_param_group :jwt_info do
+    description "Use JWT token for user authentication"
+    example "'Authorization' => 'HS256 foo.bar.token'"
+  end
+
+  def_param_group :both_ids do
+    param :id, :number, required: true
+    param :project_id, :number, required: true
+  end
+
+  def_param_group :data do
+    param :data, Hash, required: true do
+      param :title, String, "What are you going to do", required: true
+    end
+  end
+
+  api! "All tasks"
+  param_group :jwt_info
+  param :project_id, :number, required: true
   #
   def index
     @project = Project.find(params[:project_id])
@@ -24,8 +41,9 @@ class Api::V1::TasksController < Api::V1::ApiController
     @tasks = @project.tasks
   end
 
-  # api! "Show task"
-  # param :id, :number, required: true
+  api! "Show task"
+  param_group :jwt_info
+  param_group :both_ids
   #
   def show
     @project = Project.find(params[:project_id])
@@ -41,8 +59,11 @@ class Api::V1::TasksController < Api::V1::ApiController
     end
   end
 
-  # api! "Create new task"
-  # param_group :data
+  api! "Create new task"
+  param :project_id, :number, required: true
+  param_group :jwt_info
+  param_group :data
+  error 422, "Invalid request data"
   #
   def create
     @project = Project.find(params[:project_id])
@@ -57,9 +78,11 @@ class Api::V1::TasksController < Api::V1::ApiController
     end
   end
 
-  # api! "Update task"
-  # param :id, :number, required: true
-  # param_group :data
+  api! "Update task"
+  param_group :jwt_info
+  param_group :both_ids
+  param_group :data
+  error 422, "Invalid request data"
   #
   def update
     @project = Project.find(params[:project_id])
@@ -78,8 +101,9 @@ class Api::V1::TasksController < Api::V1::ApiController
     end
   end
 
-  # api! "Delete task"
-  # param :id, :number, required: true
+  api! "Delete task"
+  param_group :jwt_info
+  param_group :both_ids
   #
   def destroy
     @project = Project.find(params[:project_id])
@@ -97,8 +121,9 @@ class Api::V1::TasksController < Api::V1::ApiController
     end
   end
 
-  # api! "Toggle completed"
-  # param :id, :number, required: true
+  api! "Toggle completed"
+  param_group :jwt_info
+  param_group :both_ids
   #
   def toggle
     @project = Project.find(params[:project_id])

@@ -5,18 +5,15 @@ class UsersController < ApplicationController
     short "Users sign up"
   end
 
-  def_param_group :user_data do
-    param :email, String, required: true
-    param :password, String, required: true
-  end
-
   def_param_group :jwt_info do
-    description "Need to use jwt token for authentication"
+    description "Use JWT token for user authentication"
     example "'Authorization' => 'HS256 foo.bar.token'"
   end
 
   api! "New user registration"
-  param_group :user_data
+  param :email, String, required: true
+  param :password, String, required: true
+  error 422, "Invalid request data"
   #
   def create
     @user = User.new(user_params)
@@ -30,8 +27,10 @@ class UsersController < ApplicationController
 
   api :PUT, "/users", "Update user info"
   api :PATCH, "/users", "Update user info"
-  param_group :user_data
   param_group :jwt_info
+  param :email, String, required: true
+  error 401, "Unauthorized request"
+  error 422, "Invalid request data"
   #
   def update
     if @current_user.update(user_params)
@@ -43,6 +42,7 @@ class UsersController < ApplicationController
 
   api! "Current user info"
   param_group :jwt_info
+  error 401, "Unauthorized request"
   #
   def me
     render json: @current_user

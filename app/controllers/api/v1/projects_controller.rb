@@ -1,8 +1,39 @@
 class Api::V1::ProjectsController < Api::V1::ApiController
+  resource_description do
+    api_versions "v1"
+    short "Projects actions"
+    error 401, "Need to login first"
+  end
+
+  def_param_group :with_id do
+    param :id, :number, required: true
+    error 403, "No access to perform action"
+    error 404, "Missing entity"
+  end
+
+  def_param_group :data do
+    param :data, Hash, required: true do
+      param :name, String, "Project title", required: true
+    end
+    error 422, "Invalid request data"
+  end
+
+  def_param_group :jwt_info do
+    description "Use JWT token for user authentication"
+    example "'Authorization' => 'HS256 foo.bar.token'"
+  end
+
+  api! "All projects"
+  param_group :jwt_info
+  #
   def index
     @projects = Project.where(user_id: @current_user.id)
   end
 
+  api! "Show project"
+  param_group :jwt_info
+  param_group :with_id
+  #
   def show
     @project = Project.find(params[:id])
 
@@ -11,6 +42,10 @@ class Api::V1::ProjectsController < Api::V1::ApiController
     end
   end
 
+  api! "Create new project"
+  param_group :jwt_info
+  param_group :data
+  #
   def create
     @project = Project.new(project_params)
     @project.user = @current_user
@@ -19,6 +54,11 @@ class Api::V1::ProjectsController < Api::V1::ApiController
     render json: :ok, status: :created
   end
 
+  api! "Update project"
+  param_group :jwt_info
+  param_group :with_id
+  param_group :data
+  #
   def update
     project = Project.find(params[:id])
 
@@ -30,6 +70,10 @@ class Api::V1::ProjectsController < Api::V1::ApiController
     end
   end
 
+  api! "Delete project"
+  param_group :jwt_info
+  param_group :with_id
+  #
   def destroy
     project = Project.find(params[:id])
 
