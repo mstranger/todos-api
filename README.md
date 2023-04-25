@@ -2,6 +2,13 @@
 
 Tasks api server.
 
+Main resources:
+
+- users
+- projects
+- tasks
+- comments
+
 ## Run
 
 ```bash
