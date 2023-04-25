@@ -41,6 +41,7 @@ group :development do
   gem "annotate", require: false
   gem "rubocop-rails", "~> 2.19", require: false
   gem "rubocop-performance", "~> 1.17", require: false
+  gem "database_consistency", require: false
 end
 
 group :test do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_25_142352) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_25_163731) do
   create_table "comments", force: :cascade do |t|
     t.text "content", null: false
     t.integer "task_id", null: false
@@ -22,7 +22,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_25_142352) do
   end
 
   create_table "projects", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -34,7 +34,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_25_142352) do
     t.string "title", null: false
     t.datetime "deadline"
     t.integer "priority", default: 0, null: false
-    t.boolean "completed", default: false
+    t.boolean "completed", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "project_id", null: false

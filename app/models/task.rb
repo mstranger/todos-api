@@ -6,7 +6,7 @@
 #  title      :string           not null
 #  deadline   :datetime
 #  priority   :integer          default(0), not null
-#  completed  :boolean          default(FALSE)
+#  completed  :boolean          default(FALSE), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  project_id :integer          not null
