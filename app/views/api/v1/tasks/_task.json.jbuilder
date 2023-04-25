@@ -1,5 +1,7 @@
 json.ignore_nil!
 
+# TODO: should I add `included` property?
+
 json.data do
   json.(task, :id)
   json.type :tasks
