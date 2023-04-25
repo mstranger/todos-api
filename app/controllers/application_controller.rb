@@ -10,20 +10,20 @@ class ApplicationController < ActionController::API
 
   def authenticate_request
     header = request.headers["Authorization"]
-    header = header.split(" ").last if header
+    header = header.split.last if header
     decoded = jwt_decode(header)
     @current_user = User.find_by(id: decoded[:user_id])
   end
 
   def unauthorized
-    render json: { error: t("user.errors.login_first") }, status: :unauthorized
+    render json: {error: t("user.errors.login_first")}, status: :unauthorized
   end
 
   def invalid_param(exception)
-    render json: { error: exception.message }, status: :unprocessable_entity
+    render json: {error: exception.message}, status: :unprocessable_entity
   end
 
   def t(msg, **args)
-    I18n.translate(msg, **args)
+    I18n.t(msg, **args)
   end
 end

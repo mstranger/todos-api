@@ -12,5 +12,5 @@ class Project < ApplicationRecord
   belongs_to :user
   has_many :tasks, dependent: :destroy
 
-  validates :name, presence: true, uniqueness: { scope: :user }
+  validates :name, presence: true, uniqueness: {scope: :user}
 end

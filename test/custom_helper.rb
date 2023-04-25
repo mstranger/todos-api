@@ -18,6 +18,6 @@ module CustomHelper
   end
 
   def t(msg, **args)
-    I18n.translate(msg, **args)
+    I18n.t(msg, **args)
   end
 end

@@ -29,13 +29,13 @@ class TaskTest < ActiveSupport::TestCase
 
   test "invalid without title" do
     @task.title = ""
-    refute @task.valid?
-    refute_nil @task.errors.messages.fetch(:title, nil)
+    assert_not @task.valid?
+    assert_not_nil @task.errors.messages.fetch(:title, nil)
   end
 
   test "invalid with title length less then 3" do
     @task.title = "ab"
-    refute @task.valid?, "too short"
+    assert_not @task.valid?, "too short"
 
     @task.title = "abc"
     assert @task.valid?
@@ -43,14 +43,14 @@ class TaskTest < ActiveSupport::TestCase
 
   test "invalid without priority" do
     @task.priority = nil
-    refute @task.valid?
-    refute_nil @task.errors.messages.fetch(:priority, nil)
+    assert_not @task.valid?
+    assert_not_nil @task.errors.messages.fetch(:priority, nil)
   end
 
   test "invalid with same title within same project" do
     new_task = Task.new(title: @task.title, project: @task.project)
-    refute new_task.valid?
-    refute_nil new_task.errors.messages.fetch(:title, nil)
+    assert_not new_task.valid?
+    assert_not_nil new_task.errors.messages.fetch(:title, nil)
   end
 
   test "valid with same title and different projects" do

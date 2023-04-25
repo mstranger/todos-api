@@ -1,5 +1,5 @@
 class Api::V1::ProjectsController < Api::V1::ApiController
-  before_action :find_project, only: [:show, :update, :destroy]
+  before_action :find_project, only: %i[show update destroy]
 
   resource_description do
     api_versions "v1"
@@ -37,8 +37,9 @@ class Api::V1::ProjectsController < Api::V1::ApiController
   param_group :with_id
   #
   def show
-    render json: t("project.errors.not_permitted"),
-           status: :forbidden unless @project.user == @current_user
+    return if @project.user == @current_user
+
+    render json: t("project.errors.not_permitted"), status: :forbidden
   end
 
   api! "Create new project"
@@ -58,12 +59,13 @@ class Api::V1::ProjectsController < Api::V1::ApiController
   param_group :data
   #
   def update
-    return render json: t("project.errors.not_permitted"),
-           status: :forbidden unless @project.user == @current_user
+    if @project.user == @current_user
+      @project.update!(project_params)
 
-    @project.update!(project_params)
-
-    render json: :ok
+      render json: :ok
+    else
+      render json: t("project.errors.not_permitted"), status: :forbidden
+    end
   end
 
   api! "Delete project"
@@ -71,12 +73,12 @@ class Api::V1::ProjectsController < Api::V1::ApiController
   param_group :with_id
   #
   def destroy
-    return render json: t("project.errors.not_permitted"),
-           status: :forbidden unless @project.user == @current_user
-
-    @project.destroy
-
-    render json: :ok
+    if @project.user == @current_user
+      @project.destroy
+      render json: :ok
+    else
+      render json: t("project.errors.not_permitted"), status: :forbidden
+    end
   end
 
   private

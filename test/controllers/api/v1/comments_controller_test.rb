@@ -12,7 +12,7 @@ class Api::V1::CommentsControllerTest < ActionDispatch::IntegrationTest
 
   test "GET index" do
     get api_v1_project_task_comments_path(@project, @task),
-        headers: { "Authorization" => "HS256 #{@token}" }
+        headers: {Authorization: "HS256 #{@token}"}
 
     assert_response :ok
     assert_matches_json_schema response, "comments/index"
@@ -23,7 +23,7 @@ class Api::V1::CommentsControllerTest < ActionDispatch::IntegrationTest
 
     assert_difference("Comment.count") do
       post api_v1_project_task_comments_path(@project, @task),
-           headers: { "Authorization" => "HS256 #{@token}" },
+           headers: {Authorization: "HS256 #{@token}"},
            params: {data: {content: new_comment}}
     end
 
@@ -36,7 +36,7 @@ class Api::V1::CommentsControllerTest < ActionDispatch::IntegrationTest
 
     assert_difference("Comment.count", -1) do
       delete api_v1_project_task_comment_path(@project, @task, comment),
-             headers: { "Authorization" => "HS256 #{@token}" }
+             headers: {Authorization: "HS256 #{@token}"}
     end
 
     assert_response :ok
@@ -53,7 +53,7 @@ class Api::V1::CommentsControllerTest < ActionDispatch::IntegrationTest
 
   test "GET index fail missing" do
     get api_v1_project_task_comments_path(@project, @task.id + 123),
-        headers: { "Authorization" => "HS256 #{@token}" }
+        headers: {Authorization: "HS256 #{@token}"}
 
     assert_response :not_found
   end

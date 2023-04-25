@@ -44,12 +44,12 @@ class Api::V1::CommentsController < Api::V1::ApiController
   def destroy
     @comment = Comment.find(params[:id])
 
-    return render json: t("user.errors.not_permitted"),
-           status: :forbidden unless @comment.task == @task
-
-    @comment.destroy
-
-    render json: :ok
+    if @comment.task == @task
+      @comment.destroy
+      render json: :ok
+    else
+      render json: t("user.errors.not_permitted"), status: :forbidden
+    end
   end
 
   private
@@ -63,12 +63,15 @@ class Api::V1::CommentsController < Api::V1::ApiController
   def find_resources
     @project = Project.find(params[:project_id])
 
-    return render json: t("user.errors.not_permitted"),
-           status: :forbidden unless @project.user == @current_user
+    unless @project.user == @current_user
+      render json: t("user.errors.not_permitted"), status: :forbidden
+      return
+    end
 
     @task = Task.find(params[:task_id])
 
-    return render json: t("user.errors.not_permitted"),
-           status: :unauthorized unless @task.project == @project
+    return if @task.project == @project
+
+    render json: t("user.errors.not_permitted"), status: :unauthorized
   end
 end

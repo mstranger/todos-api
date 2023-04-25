@@ -12,7 +12,7 @@ class Api::V1::TasksControllerTest < ActionDispatch::IntegrationTest
 
   test "GET index" do
     get api_v1_project_tasks_path(@project),
-        headers: { "Authorization" => "HS256 #{@token}" }
+        headers: {Authorization: "HS256 #{@token}"}
 
     assert_response :ok
     assert_matches_json_schema response, "tasks/index"
@@ -20,7 +20,7 @@ class Api::V1::TasksControllerTest < ActionDispatch::IntegrationTest
 
   test "SHOW task" do
     get api_v1_project_task_path(@project, @task),
-        headers: { "Authorization" => "HS256 #{@token}" }
+        headers: {Authorization: "HS256 #{@token}"}
 
     assert_response :ok
     assert_matches_json_schema response, "task"
@@ -29,8 +29,8 @@ class Api::V1::TasksControllerTest < ActionDispatch::IntegrationTest
   test "POST tasks" do
     assert_difference("Task.count") do
       post api_v1_project_tasks_path(@project),
-        params: {data: {title: "new"}},
-        headers: {"Authorization": "HS256 #{@token}"}
+           params: {data: {title: "new"}},
+           headers: {Authorization: "HS256 #{@token}"}
     end
 
     assert_response :created
@@ -41,8 +41,8 @@ class Api::V1::TasksControllerTest < ActionDispatch::IntegrationTest
     new_title = "updated"
 
     put api_v1_project_task_path(@project, @task),
-      params: {data: {title: new_title}},
-      headers: {"Authorization": "HS256 #{@token}"}
+        params: {data: {title: new_title}},
+        headers: {Authorization: "HS256 #{@token}"}
 
     assert_response :ok
     assert_equal new_title, @task.reload.title
@@ -51,7 +51,7 @@ class Api::V1::TasksControllerTest < ActionDispatch::IntegrationTest
   test "DELETE task" do
     assert_difference("Task.count", -1) do
       delete api_v1_project_task_path(@project, @task),
-             headers: {"Authorization": "HS256 #{@token}"}
+             headers: {Authorization: "HS256 #{@token}"}
     end
 
     assert_response :ok
@@ -59,7 +59,7 @@ class Api::V1::TasksControllerTest < ActionDispatch::IntegrationTest
 
   test "TOGGLE task" do
     post toggle_api_v1_project_task_path(@project, @task),
-         headers: {"Authorization": "HS256 #{@token}"}
+         headers: {Authorization: "HS256 #{@token}"}
 
     assert_response :ok
     assert @task.reload.completed
@@ -82,7 +82,7 @@ class Api::V1::TasksControllerTest < ActionDispatch::IntegrationTest
 
   test "SHOW task fail not found" do
     get api_v1_project_task_path(@project, @task.id + 123),
-        headers: { "Authorization" => "HS256 #{@token}" }
+        headers: {"Authorization" => "HS256 #{@token}"}
 
     assert_response :not_found
     assert_matches_json_schema response, "error"
@@ -98,8 +98,8 @@ class Api::V1::TasksControllerTest < ActionDispatch::IntegrationTest
 
   test "POST tasks fail already exists" do
     post api_v1_project_tasks_path(@project),
-      params: {data: {title: @task.title}},
-      headers: {"Authorization": "HS256 #{@token}"}
+         params: {data: {title: @task.title}},
+         headers: {Authorization: "HS256 #{@token}"}
 
     assert_response :unprocessable_entity
     assert_matches_json_schema response, "error"

@@ -7,7 +7,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "create user" do
     assert_difference("User.count") do
-      post users_path, params: { email: "new@mail.com", password: "password" }
+      post users_path, params: {email: "new@mail.com", password: "password"}
     end
 
     assert_response 201
@@ -18,8 +18,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     token = authenticate! @user
 
     patch users_path,
-      headers: { "Authorization": "HS256 #{token}" },
-      params: { email: new_email, password: "password" }
+          headers: {Authorization: "HS256 #{token}"},
+          params: {email: new_email, password: "password"}
 
     assert_response 200
     assert_equal new_email, @user.reload.email
@@ -28,7 +28,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test "GET me" do
     token = authenticate! @user
 
-    get me_path, headers: { "Authorization": "HS256 #{token}" }
+    get me_path, headers: {Authorization: "HS256 #{token}"}
 
     assert_response 200
     assert_equal @user.email, parse_resp["email"]
@@ -39,7 +39,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "create user fail" do
     assert_no_difference("User.count") do
-      post users_path, params: { email: @user.email, password: "password" }
+      post users_path, params: {email: @user.email, password: "password"}
     end
 
     assert_response 422
@@ -47,12 +47,11 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "update user fail" do
     new_email = "udpated@mail.com"
-    patch users_path, params: { email: new_email, password: "password" }
+    patch users_path, params: {email: new_email, password: "password"}
 
     assert_response 401
     assert_equal t("user.errors.login_first"), parse_resp["error"]
   end
-
 
   test "GET me fail" do
     get me_path

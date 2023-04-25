@@ -11,7 +11,7 @@ class Api::V1::ProjectsControllerTest < ActionDispatch::IntegrationTest
 
   test "GET index" do
     get api_v1_projects_path,
-        headers: {"Authorization": "HS256 #{@token}"}
+        headers: {Authorization: "HS256 #{@token}"}
 
     assert_response :ok
     assert_matches_json_schema response, "projects/index"
@@ -19,7 +19,7 @@ class Api::V1::ProjectsControllerTest < ActionDispatch::IntegrationTest
 
   test "GET show" do
     get api_v1_project_path(@project),
-        headers: {"Authorization": "HS256 #{@token}"}
+        headers: {Authorization: "HS256 #{@token}"}
 
     assert_response :ok
     assert_equal @project.id, parse_resp[:data][:id]
@@ -29,7 +29,7 @@ class Api::V1::ProjectsControllerTest < ActionDispatch::IntegrationTest
   test "POST create" do
     assert_difference("Project.count") do
       post api_v1_projects_path,
-           headers: {"Authorization": "HS256 #{@token}"},
+           headers: {Authorization: "HS256 #{@token}"},
            params: {data: {name: "created"}}
     end
 
@@ -41,7 +41,7 @@ class Api::V1::ProjectsControllerTest < ActionDispatch::IntegrationTest
     new_name = "updated"
 
     patch api_v1_project_path(@project),
-          headers: {"Authorization": "HS256 #{@token}"},
+          headers: {Authorization: "HS256 #{@token}"},
           params: {data: {name: new_name}}
 
     assert_response :ok
@@ -51,7 +51,7 @@ class Api::V1::ProjectsControllerTest < ActionDispatch::IntegrationTest
   test "DELETE destroy" do
     assert_difference("Project.count", -1) do
       delete api_v1_project_path(@project),
-             headers: {"Authorization": "HS256 #{@token}"}
+             headers: {Authorization: "HS256 #{@token}"}
     end
 
     assert_response :ok
@@ -60,7 +60,7 @@ class Api::V1::ProjectsControllerTest < ActionDispatch::IntegrationTest
   test "DELETE destroy dependent destroy" do
     assert_difference ["Project.count", "Task.count"], -1 do
       delete api_v1_project_path(@project),
-             headers: {"Authorization": "HS256 #{@token}"}
+             headers: {Authorization: "HS256 #{@token}"}
     end
   end
 
@@ -89,8 +89,8 @@ class Api::V1::ProjectsControllerTest < ActionDispatch::IntegrationTest
 
   test "POST create fail already exists" do
     post api_v1_projects_path,
-          headers: {"Authorization": "HS256 #{@token}"},
-          params: {data: {name: @project.name}}
+         headers: {Authorization: "HS256 #{@token}"},
+         params: {data: {name: @project.name}}
 
     assert_response 422
     assert_matches_json_schema response, "error"

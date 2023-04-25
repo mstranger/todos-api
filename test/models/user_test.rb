@@ -22,19 +22,19 @@ class UserTest < ActiveSupport::TestCase
 
   test "invalid without email" do
     @user.email = ""
-    refute @user.valid?
-    refute_nil @user.errors.messages.fetch(:email, nil)
+    assert_not @user.valid?
+    assert_not_nil @user.errors.messages.fetch(:email, nil)
   end
 
   test "invalid without password" do
     @user.password = nil
-    refute @user.valid?
-    refute_nil @user.errors.messages.fetch(:password, nil)
+    assert_not @user.valid?
+    assert_not_nil @user.errors.messages.fetch(:password, nil)
   end
 
   test "invalid with existing email" do
     @user.email = users(:john).email
-    refute @user.valid?
+    assert_not @user.valid?
   end
 
   test "relationships" do

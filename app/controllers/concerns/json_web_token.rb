@@ -10,6 +10,6 @@ module JsonWebToken
 
   def jwt_decode(token)
     decoded = JWT.decode(token, SECRET_KEY).first
-    HashWithIndifferentAccess.new(decoded)
+    decoded.with_indifferent_access
   end
 end

@@ -21,8 +21,8 @@ class ProjectTest < ActiveSupport::TestCase
 
   test "invalid without name" do
     @project.name = ""
-    refute @project.valid?
-    refute_nil @project.errors.messages.fetch(:name, nil)
+    assert_not @project.valid?
+    assert_not_nil @project.errors.messages.fetch(:name, nil)
   end
 
   test "associations" do
@@ -39,7 +39,7 @@ class ProjectTest < ActiveSupport::TestCase
   test "invalid with same name within same user" do
     new_project = Project.new(name: @project.name, user: @project.user)
 
-    refute new_project.valid?
-    refute_nil new_project.errors.messages.fetch(:name, nil)
+    assert_not new_project.valid?
+    assert_not_nil new_project.errors.messages.fetch(:name, nil)
   end
 end

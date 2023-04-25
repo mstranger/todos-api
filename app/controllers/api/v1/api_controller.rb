@@ -5,11 +5,11 @@ class Api::V1::ApiController < ApplicationController
   private
 
   def record_invalid(exception)
-    render json: { errors: exception.record.errors.full_messages },
+    render json: {errors: exception.record.errors.full_messages},
            status: :unprocessable_entity
   end
 
   def record_not_found(exception)
-    render json: { error: exception.message }, status: :not_found
+    render json: {error: exception.message}, status: :not_found
   end
 end

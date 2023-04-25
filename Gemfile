@@ -16,7 +16,7 @@ gem "jwt", "~> 2.7"
 
 # gem "devise_token_auth", "~> 1.2"
 
-gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
+gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
@@ -31,13 +31,16 @@ gem "apipie-rails", "~> 0.9.3"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  gem "debug", platforms: %i[mri mingw x64_mingw]
 end
 
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
-  gem "annotate"
+
+  gem "annotate", require: false
+  gem "rubocop-rails", "~> 2.19", require: false
+  gem "rubocop-performance", "~> 1.17", require: false
 end
 
 group :test do

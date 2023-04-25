@@ -22,8 +22,8 @@ class CommentTest < ActiveSupport::TestCase
 
   test "invalid without content" do
     @comment.content = ""
-    refute @comment.valid?
-    refute_nil @comment.errors.messages.fetch(:content, nil)
+    assert_not @comment.valid?
+    assert_not_nil @comment.errors.messages.fetch(:content, nil)
   end
 
   test "relationships" do

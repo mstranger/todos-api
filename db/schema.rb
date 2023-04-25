@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_24_152033) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_25_142352) do
   create_table "comments", force: :cascade do |t|
     t.text "content", null: false
     t.integer "task_id", null: false
@@ -39,7 +39,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_24_152033) do
     t.datetime "updated_at", null: false
     t.integer "project_id", null: false
     t.index ["project_id"], name: "index_tasks_on_project_id"
-    t.index ["title"], name: "index_tasks_on_title", unique: true
+    t.index ["title", "project_id"], name: "index_tasks_on_title_and_project_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|

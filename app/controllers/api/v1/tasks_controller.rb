@@ -46,8 +46,9 @@ class Api::V1::TasksController < Api::V1::ApiController
   def show
     @task = Task.find(params[:id])
 
-    render json: t("project.errors.not_permitted"),
-           status: :unauthorized unless @task.project == @project
+    return if @task.project == @project
+
+    render json: t("project.errors.not_permitted"), status: :unauthorized
   end
 
   api! "Create new task"
@@ -59,7 +60,6 @@ class Api::V1::TasksController < Api::V1::ApiController
   def create
     @task = Task.new(task_params.merge(project_id: @project.id))
     @task.save!
-
     render json: :ok, status: :created
   end
 
@@ -72,12 +72,12 @@ class Api::V1::TasksController < Api::V1::ApiController
   def update
     @task = Task.find(params[:id])
 
-    return render json: t("user.errors.not_permitted"),
-           status: :unauthorized unless @task.project == @project
-
-    @task.update!(task_params)
-
-    render json: :ok
+    if @task.project == @project
+      @task.update!(task_params)
+      render json: :ok
+    else
+      render json: t("user.errors.not_permitted"), status: :unauthorized
+    end
   end
 
   api! "Delete task"
@@ -87,12 +87,12 @@ class Api::V1::TasksController < Api::V1::ApiController
   def destroy
     @task = Task.find(params[:id])
 
-    return render json: t("user.errors.not_permitted"),
-           status: :unauthorized unless @task.project == @project
-
-    @task.destroy
-
-    render json: :ok
+    if @task.project == @project
+      @task.destroy
+      render json: :ok
+    else
+      render json: t("user.errors.not_permitted"), status: :unauthorized
+    end
   end
 
   api! "Toggle completed"
@@ -102,10 +102,11 @@ class Api::V1::TasksController < Api::V1::ApiController
   def toggle
     @task = Task.find(params[:id])
 
-    return render json: t("user.errors.not_permitted"),
-           status: :unauthorized unless @task.project == @project
-
-    @task.update(completed: !@task.completed)
+    if @task.project == @project
+      @task.update(completed: !@task.completed)
+    else
+      render json: t("user.errors.not_permitted"), status: :unauthorized
+    end
   end
 
   private
@@ -117,7 +118,8 @@ class Api::V1::TasksController < Api::V1::ApiController
   def find_project
     @project = Project.find(params[:project_id])
 
-    return render json: t("user.errors.not_permitted"),
-           status: :forbidden unless @project.user == @current_user
+    return if @project.user == @current_user
+
+    render json: t("user.errors.not_permitted"), status: :forbidden
   end
 end
