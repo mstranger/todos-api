@@ -29,10 +29,10 @@ class ProjectsWithPermitionsTest < ActionDispatch::IntegrationTest
   end
 
   test "can't add comment in someone else's comment" do
-    assert_no_difference("Comment.count") do
+    assert_no_difference "Comment.count" do
       post api_v1_project_task_comments_path(@mproject, @mtask),
            headers: { "Authorization" => "HS256 #{@jtoken}" },
-           params: {data: {title: "created"}}
+           params: {data: {content: "awesome"}}
     end
 
     assert_response :forbidden
@@ -42,8 +42,13 @@ class ProjectsWithPermitionsTest < ActionDispatch::IntegrationTest
   test "can't delete someone else's comment" do
     comment = comments(:two)
 
-    assert_no_difference("Comment.count") do
+    assert_no_difference "Comment.count"  do
       delete api_v1_project_task_comment_path(@mproject, @mtask, comment),
+             headers: { "Authorization" => "HS256 #{@jtoken}" }
+    end
+
+    assert_no_difference "Comment.count", "Comment in other task cannot be deleted" do
+      delete api_v1_project_task_comment_path(@jproject, @jtask, comment),
              headers: { "Authorization" => "HS256 #{@jtoken}" }
     end
 

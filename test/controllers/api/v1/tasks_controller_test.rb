@@ -90,7 +90,7 @@ class Api::V1::TasksControllerTest < ActionDispatch::IntegrationTest
 
   test "POST tasks fail no auth" do
     assert_no_difference("Task.count") do
-      post api_v1_project_tasks_path(@project), params: {data: {title: "new task"}}
+      post api_v1_project_tasks_path(@project), params: {data: {title: "new"}}
     end
 
     assert_response :unauthorized

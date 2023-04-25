@@ -51,6 +51,13 @@ class Api::V1::CommentsControllerTest < ActionDispatch::IntegrationTest
     assert_equal t("user.errors.login_first"), parse_resp["error"]
   end
 
+  test "GET index fail missing" do
+    get api_v1_project_task_comments_path(@project, @task.id + 123),
+        headers: { "Authorization" => "HS256 #{@token}" }
+
+    assert_response :not_found
+  end
+
   test "POST comments fail auth" do
     new_comment = "example"
 

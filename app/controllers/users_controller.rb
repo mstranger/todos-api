@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_action :authenticate_request, only: [:create]
+  skip_before_action :authenticate_request, only: :create
 
   resource_description do
     short "Users sign up"
@@ -36,7 +36,7 @@ class UsersController < ApplicationController
     if @current_user.update(user_params)
       render json: :ok
     else
-      render json: { errors: @current_user.errors.full_messages }, status: 422
+      render json: {errors: @current_user.errors.full_messages}, status: 422
     end
   end
 

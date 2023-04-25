@@ -1,4 +1,6 @@
 class Api::V1::ProjectsController < Api::V1::ApiController
+  before_action :find_project, only: [:show, :update, :destroy]
+
   resource_description do
     api_versions "v1"
     short "Projects actions"
@@ -35,11 +37,8 @@ class Api::V1::ProjectsController < Api::V1::ApiController
   param_group :with_id
   #
   def show
-    @project = Project.find(params[:id])
-
-    unless @project.user == @current_user
-      render json: t("project.errors.not_permitted"), status: :forbidden
-    end
+    render json: t("project.errors.not_permitted"),
+           status: :forbidden unless @project.user == @current_user
   end
 
   api! "Create new project"
@@ -47,8 +46,7 @@ class Api::V1::ProjectsController < Api::V1::ApiController
   param_group :data
   #
   def create
-    @project = Project.new(project_params)
-    @project.user = @current_user
+    @project = Project.new(project_params.merge(user_id: @current_user.id))
     @project.save!
 
     render json: :ok, status: :created
@@ -60,14 +58,12 @@ class Api::V1::ProjectsController < Api::V1::ApiController
   param_group :data
   #
   def update
-    project = Project.find(params[:id])
+    return render json: t("project.errors.not_permitted"),
+           status: :forbidden unless @project.user == @current_user
 
-    if project.user == @current_user
-      project.update!(project_params)
-      render json: :ok
-    else
-      render json: t("project.errors.not_permitted"), status: :forbidden
-    end
+    @project.update!(project_params)
+
+    render json: :ok
   end
 
   api! "Delete project"
@@ -75,19 +71,21 @@ class Api::V1::ProjectsController < Api::V1::ApiController
   param_group :with_id
   #
   def destroy
-    project = Project.find(params[:id])
+    return render json: t("project.errors.not_permitted"),
+           status: :forbidden unless @project.user == @current_user
 
-    if project.user == @current_user
-      project.destroy
-      render json: :ok
-    else
-      render json: t("project.errors.not_permitted"), status: :forbidden
-    end
+    @project.destroy
+
+    render json: :ok
   end
 
   private
 
   def project_params
     params.require(:data).permit(:name)
+  end
+
+  def find_project
+    @project = Project.find(params[:id])
   end
 end

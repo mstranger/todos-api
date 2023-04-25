@@ -12,7 +12,10 @@
 #  project_id :integer          not null
 #
 class Task < ApplicationRecord
-  validates :title, presence: true, uniqueness: { scope: :project }, length: { minimum: 3 }
+  validates :title, presence: true,
+                    uniqueness: { scope: :project },
+                    length: { minimum: 3 }
+
   validates :priority, presence: true
 
   belongs_to :project

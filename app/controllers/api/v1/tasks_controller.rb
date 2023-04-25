@@ -1,4 +1,6 @@
 class Api::V1::TasksController < Api::V1::ApiController
+  before_action :find_project
+
   # NOTE: it seems inheritance is not working for now
   # see https://github.com/Apipie/apipie-rails/issues/488
 
@@ -32,12 +34,6 @@ class Api::V1::TasksController < Api::V1::ApiController
   param :project_id, :number, required: true
   #
   def index
-    @project = Project.find(params[:project_id])
-
-    unless @project.user == @current_user
-      render json: t("user.errors.not_permitted"), status: :forbidden
-    end
-
     @tasks = @project.tasks
   end
 
@@ -46,17 +42,10 @@ class Api::V1::TasksController < Api::V1::ApiController
   param_group :both_ids
   #
   def show
-    @project = Project.find(params[:project_id])
-
-    unless @project.user == @current_user
-      render json: t("user.errors.not_permitted"), status: :forbidden
-    end
-
     @task = Task.find(params[:id])
 
-    unless @task.project == @project
-      render json: t("project.errors.not_permitted"), status: :unauthorized
-    end
+    render json: t("project.errors.not_permitted"),
+           status: :unauthorized unless @task.project == @project
   end
 
   api! "Create new task"
@@ -66,16 +55,10 @@ class Api::V1::TasksController < Api::V1::ApiController
   error 422, "Invalid request data"
   #
   def create
-    @project = Project.find(params[:project_id])
+    @task = Task.new(task_params.merge(project_id: @project.id))
+    @task.save!
 
-    if @project.user == @current_user
-      @task = Task.new(task_params.merge(project_id: @project.id))
-      @task.save!
-
-      render json: :ok, status: :created
-    else
-      render json: t("user.errors.not_permitted"), status: :forbidden
-    end
+    render json: :ok, status: :created
   end
 
   api! "Update task"
@@ -85,20 +68,14 @@ class Api::V1::TasksController < Api::V1::ApiController
   error 422, "Invalid request data"
   #
   def update
-    @project = Project.find(params[:project_id])
+    @task = Task.find(params[:id])
 
-    if @project.user == @current_user
-      @task = Task.find(params[:id])
+    return render json: t("user.errors.not_permitted"),
+           status: :unauthorized unless @task.project == @project
 
-      if @task.project == @project
-        @task.update!(task_params)
-        render json: :ok
-      else
-        render json: t("user.errors.not_permitted"), status: :unauthorized
-      end
-    else
-      render json: t("user.errors.not_permitted"), status: :forbidden
-    end
+    @task.update!(task_params)
+
+    render json: :ok
   end
 
   api! "Delete task"
@@ -106,19 +83,14 @@ class Api::V1::TasksController < Api::V1::ApiController
   param_group :both_ids
   #
   def destroy
-    @project = Project.find(params[:project_id])
-    if @project.user == @current_user
-      @task = Task.find(params[:id])
+    @task = Task.find(params[:id])
 
-      if @task.project == @project
-        @task.destroy
-        render json: :ok
-      else
-        render json: t("user.errors.not_permitted"), status: :unauthorized
-      end
-    else
-      render json: t("user.errors.not_permitted"), status: :forbidden
-    end
+    return render json: t("user.errors.not_permitted"),
+           status: :unauthorized unless @task.project == @project
+
+    @task.destroy
+
+    render json: :ok
   end
 
   api! "Toggle completed"
@@ -126,23 +98,24 @@ class Api::V1::TasksController < Api::V1::ApiController
   param_group :both_ids
   #
   def toggle
-    @project = Project.find(params[:project_id])
-    if @project.user == @current_user
-      @task = Task.find(params[:id])
+    @task = Task.find(params[:id])
 
-      if @task.project == @project
-        @task.update(completed: !@task.completed)
-      else
-        render json: t("user.errors.not_permitted"), status: :unauthorized
-      end
-    else
-      render json: t("user.errors.not_permitted"), status: :forbidden
-    end
+    return render json: t("user.errors.not_permitted"),
+           status: :unauthorized unless @task.project == @project
+
+    @task.update(completed: !@task.completed)
   end
 
   private
 
   def task_params
     params.require(:data).permit!
+  end
+
+  def find_project
+    @project = Project.find(params[:project_id])
+
+    return render json: t("user.errors.not_permitted"),
+           status: :forbidden unless @project.user == @current_user
   end
 end
