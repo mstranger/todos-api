@@ -5,7 +5,6 @@ json.data do
   json.type :comments
 
   json.attributes do
-    # json.extract! comment, :title, :project_id, :deadline, :priority, :completed
     json.(comment, :content)
   end
 

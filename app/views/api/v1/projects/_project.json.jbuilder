@@ -5,7 +5,7 @@ json.data do
   json.type :projects
 
   json.attributes do
-    json.name project.name
+    json.(project, :name)
   end
 
   json.relationships do

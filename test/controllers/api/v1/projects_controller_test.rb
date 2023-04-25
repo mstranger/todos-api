@@ -58,9 +58,7 @@ class Api::V1::ProjectsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "DELETE destroy dependent destroy" do
-    count = @project.tasks.count
-
-    assert_difference("Task.count", -count) do
+    assert_difference ["Project.count", "Task.count"], -1 do
       delete api_v1_project_path(@project),
              headers: {"Authorization": "HS256 #{@token}"}
     end

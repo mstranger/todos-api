@@ -26,6 +26,8 @@ class Api::V1::TasksController < Api::V1::ApiController
   def_param_group :data do
     param :data, Hash, required: true do
       param :title, String, "What are you going to do", required: true
+      param :deadline, String, "For example, in format: 'yyyy-mm-dd hh:mm'"
+      param :priority, :number, "Positive integer (0 by default)"
     end
   end
 
