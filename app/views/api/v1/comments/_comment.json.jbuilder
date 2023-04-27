@@ -26,6 +26,18 @@ json.data do
         json.id project.user.id
       end
     end
+
+    if comment.image.attached?
+      json.image do
+        json.data do
+          json.type :attachments
+          json.content_type comment.image.blob.content_type
+        end
+        json.links do
+          json.self "#{request.base_url}#{url_for comment.image}"
+        end
+      end
+    end
   end
 
   json.links do

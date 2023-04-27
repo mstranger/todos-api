@@ -20,7 +20,7 @@ class Api::V1::CommentsController < Api::V1::ApiController
   error 404, "Missing entity"
   #
   def index
-    @comments = @task.comments
+    @comments = @task.comments.includes([image_attachment: :blob])
   end
 
   # TODO: custom validator for file param
