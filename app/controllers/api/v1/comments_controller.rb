@@ -23,16 +23,19 @@ class Api::V1::CommentsController < Api::V1::ApiController
     @comments = @task.comments
   end
 
+  # TODO: custom validator for file param
   api! "Add a new comment"
   param_group :with_ids
-  param :data, Hash, required: true do
-    param :content, String, required: true
-  end
+  param :content, String, required: true
   error 422, "Invalid request data"
   #
   def create
-    @comment = Comment.new(comment_params)
-    @comment.save!
+    @comment = Comment.create!(
+      content: params[:content],
+      user_id: @current_user.id,
+      task_id: @task.id,
+      image: params[:file]
+    )
 
     render json: :ok, status: :created
   end
