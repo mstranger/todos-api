@@ -24,7 +24,7 @@ class Api::V1::CommentsControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Comment.count") do
       post api_v1_project_task_comments_path(@project, @task),
            headers: {Authorization: "HS256 #{@token}"},
-           params: {data: {content: new_comment}}
+           params: {content: new_comment}
     end
 
     assert_response :created
