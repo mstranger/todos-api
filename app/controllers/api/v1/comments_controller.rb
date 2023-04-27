@@ -57,12 +57,6 @@ class Api::V1::CommentsController < Api::V1::ApiController
 
   private
 
-  def comment_params
-    params.require(:data)
-          .permit(:content)
-          .merge(user_id: @current_user.id, task_id: @task.id)
-  end
-
   def find_resources
     @project = Project.find(params[:project_id])
 

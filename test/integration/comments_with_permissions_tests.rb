@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ProjectsWithPermitionsTest < ActionDispatch::IntegrationTest
+class CommentsWithPermitionsTest < ActionDispatch::IntegrationTest
   setup do
     @john = users(:john)
     @jtoken = authenticate! @john
