@@ -6,3 +6,17 @@ Apipie.configure do |config|
   # where is your API defined?
   config.api_controllers_matcher = "#{Rails.root}/app/controllers/**/*.rb"
 end
+
+class FileValidator < Apipie::Validator::BaseValidator
+  def validate(value)
+    ActionDispatch::Http::UploadedFile === value
+  end
+
+  def self.build(param_description, argument, options, block)
+    self.new param_description if argument == File
+  end
+
+  def description
+    "Must be a valid file"
+  end
+end
