@@ -23,10 +23,10 @@ class Api::V1::CommentsController < Api::V1::ApiController
     @comments = @task.comments.includes([image_attachment: :blob])
   end
 
-  # TODO: custom validator for file param
   api! "Add a new comment"
   param_group :with_ids
   param :content, String, required: true
+  param :file, File, "uploaded file"
   error 422, "Invalid request data"
   #
   def create
