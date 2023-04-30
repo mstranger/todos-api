@@ -1,10 +1,10 @@
-name: "Rails CI"
+name: Rails CI
 
 on:
   push:
-    branches: ["main", "dev"]
+    branches: [ main, dev ]
   pull_request:
-    branches: ["main", "dev"]
+    branches: [ main, dev ]
 
 jobs:
   lint:
@@ -49,3 +49,9 @@ jobs:
         run: bin/rails db:schema:load
       - name: Run tests
         run: bin/rake
+      - name: Get coverage artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage
+          path: coverage/
+          retention-days: 3

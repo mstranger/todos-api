@@ -49,4 +49,5 @@ end
 group :test do
   gem "minitest-reporters"
   gem "json_matchers"
+  gem "simplecov", require: false
 end
