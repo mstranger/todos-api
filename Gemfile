@@ -43,6 +43,7 @@ group :development do
   gem "rubocop-rails", "~> 2.19", require: false
   gem "rubocop-performance", "~> 1.17", require: false
   gem "database_consistency", require: false
+  gem "brakeman", require: false
 end
 
 group :test do
