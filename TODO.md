@@ -8,4 +8,4 @@
 - [ ] docker container
 - [ ] use postgres
 - [ ] write simple client
-- [ ] CI
+- [x] CI
