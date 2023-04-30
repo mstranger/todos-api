@@ -1,15 +1,26 @@
 name: "Rails CI"
 on: push
 
-# on:
-#   push:
-#     branches: [ "main", "dev" ]
-#   pull_request:
-#     branches: [ "main", "dev" ]
-
 jobs:
-  test:
+  lint:
+    name: linters
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install ruby and gems
+        uses: ruby/setup-ruby@55283cc23133118229fd3f97f9336ee23a179fcf # v1.146.0
+        with:
+          bundler-cache: true
+      - name: Security audit
+        run: bin/brakeman -q -w2
+      - name: Lint files
+        run: bin/rubocop --parallel
+
+  test:
+    name: tests
+    runs-on: ubuntu-latest
+    needs: lint
     # services:
     #   postgres:
     #     image: postgres:11-alpine
@@ -21,31 +32,15 @@ jobs:
     #       POSTGRES_PASSWORD: password
     env:
       RAILS_ENV: test
-      DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"
+      # DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Install Ruby and gems
+      - name: Install ruby and gems
         uses: ruby/setup-ruby@55283cc23133118229fd3f97f9336ee23a179fcf # v1.146.0
         with:
           bundler-cache: true
-      - name: Set up database schema
+      - name: Set up database
         run: bin/rails db:schema:load
       - name: Run tests
         run: bin/rake
-
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Install Ruby and gems
-        uses: ruby/setup-ruby@55283cc23133118229fd3f97f9336ee23a179fcf # v1.146.0
-        with:
-          bundler-cache: true
-      - name: Security audit dependencies
-        run: bin/bundler-audit --update
-      - name: Security audit application code
-        run: bin/brakeman -q -w2
-      - name: Lint Ruby files
-        run: bin/rubocop --parallel

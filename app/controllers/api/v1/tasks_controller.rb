@@ -112,7 +112,7 @@ class Api::V1::TasksController < Api::V1::ApiController
   private
 
   def task_params
-    params.require(:data).permit!
+    params.require(:data).permit(:title, :deadline, :priority, :completed)
   end
 
   def find_project
