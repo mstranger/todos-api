@@ -6,6 +6,6 @@
 - [x] comments attachments
 - [ ] check with story doc
 - [ ] docker container
-- [ ] use postgres
+- [x] use postgres
 - [ ] write simple client
 - [x] CI
