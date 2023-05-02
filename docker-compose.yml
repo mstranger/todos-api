@@ -1,0 +1,40 @@
+version: "3.9"
+name: todos
+
+services:
+
+  web:
+    container_name: todos_server
+    build: .
+    networks:
+      - api
+    volumes:
+      - .:/app
+      # - bundle:/usr/local/bundle
+    ports:
+      - "3000:3000"
+    environment:
+      - HISTFILE=/app/log/.bash_history
+    depends_on:
+      - db
+
+  db:
+    container_name: todos_db
+    image: postgres:latest
+    ports:
+      - "6543:5432"
+    networks:
+      - api
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  pg_data:
+  # bundle:
+
+networks:
+  api:

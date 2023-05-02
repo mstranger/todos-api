@@ -3,9 +3,10 @@ default: &default
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
+  host: db
+  # url: postgresql://0.0.0.0:6543
   username: <%= Rails.application.credentials.dig(:pg, :user) %>
   password: <%= Rails.application.credentials.dig(:pg, :password) %>
-  url: postgresql://0.0.0.0:6543
 
 ### env
 
