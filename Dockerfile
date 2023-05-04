@@ -2,19 +2,13 @@
 
 FROM ruby:3.2-slim
 
-# RUN apt-get update -qq && apt-get install -yq --no-install-recommends \
-#     build-essential \
-#     gnupg2 \
-#     less \
-#     git \
-#     libpq-dev \
-#     postgresql-client \
-#     libvips \
-#     curl
+# build-essential, gnupg2, less, git, libpq-dev,
+# postgresql-client, libvips, curl
 
 RUN apt-get update -qq && \
     apt-get install -yq --no-install-recommends \
-    postgresql-client \
+    build-essential \
+    libpq-dev \
     libvips
 
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

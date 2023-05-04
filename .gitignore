@@ -34,3 +34,5 @@
 
 # Ignore simplecov folder
 /coverage
+
+/.gems

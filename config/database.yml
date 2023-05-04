@@ -5,7 +5,7 @@ default: &default
   timeout: 5000
   host: db
   # url: postgresql://0.0.0.0:6543
-  username: <%= ENV.fetch("POSTGRES_USER") %>
+  username: <%= ENV.fetch("POSTGRES_USER", "postgres") %>
   password: <%= ENV.fetch("POSTGRES_PASSWORD") %>
 
 ### env
