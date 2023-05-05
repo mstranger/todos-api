@@ -13,8 +13,6 @@ services:
       # - bundle:/usr/local/bundle
     ports:
       - "3000:3000"
-    environment:
-      - POSTGRES_PASSWORD=password
     depends_on:
       - db
 
