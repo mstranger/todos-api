@@ -1,0 +1,44 @@
+require:
+  - rubocop-rails
+  - rubocop-performance
+
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.1
+
+  Exclude:
+    - app/views/**/*.jbuilder
+    - bin/*
+    - config/**/*
+    - db/**/*
+    - vendor/**/*
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/NumericPredicate:
+  EnforcedStyle: comparison
+
+Style/HashSyntax:
+  EnforcedShorthandSyntax: never
+
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+
+Layout/EmptyComment:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 15
+
+Bundler/OrderedGems:
+  Enabled: false

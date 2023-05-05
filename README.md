@@ -1,24 +1,41 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Tasks api server.
 
-Things you may want to cover:
+Main resources:
 
-* Ruby version
+- users
+- projects
+- tasks
+- comments
 
-* System dependencies
+## Run
 
-* Configuration
+The postgresql database is used through a Docker container. Edit the db file settings if it's not.
+So first you need to run this container.
 
-* Database creation
+```bash
+docker compose build
+docker compose up/down
+```
 
-* Database initialization
+Then setup database and run the server:
 
-* How to run the test suite
+```bash
+bundle install
+bin/rails db:setup
+bin/rails server
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+Also you can use a Docker container for entire application. Uncomment `services -> web` section in the
+compose file.
 
-* Deployment instructions
+```bash
+docker compose up
+docker compose exec web bin/rails db:setup
+docker compose exec web bin/rails server
+```
 
-* ...
+## Docs
+
+To view the documentation visit [http://localhost:3000/apipie](api).

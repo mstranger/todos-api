@@ -1,0 +1,45 @@
+version: "3.9"
+name: todos
+
+services:
+  # web:
+  #   container_name: todos_server
+  #   build: .
+  #   networks:
+  #     - api
+  #   volumes:
+  #     - .:/app
+  #     # - bundle:/usr/local/bundle
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     - db
+
+  db:
+    container_name: todos_db
+    image: postgres:alpine
+    ports:
+      - 5432:5432
+    networks:
+      - api
+    environment:
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    restart: always
+
+  adminer:
+    container_name: adminer
+    image: adminer
+    ports:
+      - 8080:8080
+    networks:
+      - api
+    restart: always
+
+volumes:
+  pg_data:
+  # bundle:
+
+networks:
+  api:

@@ -1,0 +1,6 @@
+en:
+  user:
+    errors:
+      auth_fail: "Invalid email or password"
+      login_first: "Please, sign in first"
+      not_permitted: "Not permitted"
