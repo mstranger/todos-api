@@ -11,9 +11,31 @@ Main resources:
 
 ## Run
 
+The postgresql database is used through a Docker container. Edit the db file settings if it's not.
+So first you need to run this container.
+
+```bash
+docker compose build
+docker compose up/down
+```
+
+Then setup database and run the server:
+
 ```bash
 bundle install
+bin/rails db:setup
 bin/rails server
 ```
 
-To view the documentation go to [http://localhost:3000/apipie](api) link page.
+Also you can use a Docker container for entire application. Uncomment `services -> web` section in the
+compose file.
+
+```bash
+docker compose up
+docker compose exec web bin/rails db:setup
+docker compose exec web bin/rails server
+```
+
+## Docs
+
+To view the documentation visit [http://localhost:3000/apipie](api).
