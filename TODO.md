@@ -9,3 +9,5 @@
 - [x] use postgres
 - [ ] write simple client
 - [x] CI
+- [ ] use s3 storage for prod
+- [ ] more tests
