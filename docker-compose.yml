@@ -17,7 +17,7 @@ services:
 
   db:
     container_name: todos_db
-    image: postgres:alpine
+    image: postgres:14-alpine
     ports:
       - 5432:5432
     networks:
