@@ -1,6 +1,8 @@
 en:
   user:
     errors:
-      auth_fail: "Invalid email or password"
+      auth_fail: "Invalid login or password"
       login_first: "Please, sign in first"
+      login_exists: "is already registered. Please, log in"
       not_permitted: "Not permitted"
+      password_format: "does not meet minimal requirements. The length should be at least 6 characters, alphanumeric"
