@@ -13,7 +13,8 @@ class Project < ApplicationRecord
   has_many :tasks, dependent: :destroy
 
   # TODO: test case sensitive
-  validates :name, presence: {message: I18n.t("project.errors.name_blank")},
+  validates :name, 
+    presence: {message: I18n.t("project.errors.name_blank")},
     uniqueness: {scope: :user, case_sensitive: false, message: I18n.t("project.errors.name_exists")}
 
   # TODO: test this

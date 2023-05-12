@@ -13,7 +13,7 @@
 #
 class Task < ApplicationRecord
   validates :title, presence: true,
-                    uniqueness: {scope: :project},
+                    uniqueness: {scope: :project, case_sensitive: false},
                     length: {minimum: 3}
 
   validates :priority, presence: true

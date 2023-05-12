@@ -14,11 +14,11 @@ class User < ApplicationRecord
 
   # TODO: password test validation
 
-  validates :email, 
-    presence: true, 
-    uniqueness: {message: I18n.t("user.errors.login_exists")}, 
+  validates :email,
+    presence: true,
+    uniqueness: {message: I18n.t("user.errors.login_exists")},
     length: {minimum: 3, maximum: 50}
-  validates :password, 
+  validates :password,
     format: {with: /\A[a-zA-Z0-9]{6,}\z/, message: I18n.t("user.errors.password_format")}
 
   has_many :projects, dependent: :destroy
