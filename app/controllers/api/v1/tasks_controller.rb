@@ -31,12 +31,14 @@ class Api::V1::TasksController < Api::V1::ApiController
     end
   end
 
+  # TODO: test order by priority and created_at
+
   api! "All tasks"
   param_group :jwt_info
   param :project_id, :number, required: true
   #
   def index
-    @tasks = @project.tasks.order(:created_at).includes([:comments])
+    @tasks = @project.tasks.order("priority DESC, created_at ASC").includes([:comments])
   end
 
   api! "Show task"
@@ -104,6 +106,7 @@ class Api::V1::TasksController < Api::V1::ApiController
 
     if @task.project == @project
       @task.update(completed: !@task.completed)
+      render json: :ok
     else
       render json: t("user.errors.not_permitted"), status: :unauthorized
     end

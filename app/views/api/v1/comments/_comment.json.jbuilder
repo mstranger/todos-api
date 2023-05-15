@@ -5,7 +5,7 @@ json.data do
   json.type :comments
 
   json.attributes do
-    json.(comment, :content)
+    json.extract! comment, :content, :created_at
   end
 
   json.relationships do
