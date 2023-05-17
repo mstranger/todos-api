@@ -20,7 +20,7 @@ class Api::V1::CommentsController < Api::V1::ApiController
   error 404, "Missing entity"
   #
   def index
-    @comments = @task.comments.includes([image_attachment: :blob])
+    @comments = @task.comments.order(:created_at).includes([image_attachment: :blob])
   end
 
   api! "Add a new comment"
@@ -34,7 +34,7 @@ class Api::V1::CommentsController < Api::V1::ApiController
       content: params[:content],
       user_id: @current_user.id,
       task_id: @task.id,
-      image: params[:file]
+      image: params[:image]
     )
 
     render json: :ok, status: :created

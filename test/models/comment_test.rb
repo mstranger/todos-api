@@ -2,7 +2,7 @@
 #
 # Table name: comments
 #
-#  id         :integer          not null, primary key
+#  id         :bigint           not null, primary key
 #  content    :text             not null
 #  task_id    :integer          not null
 #  user_id    :integer          not null

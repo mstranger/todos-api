@@ -6,6 +6,9 @@ json.data do
 
   json.attributes do
     json.extract! comment, :content, :created_at
+    if comment.image.attached?
+      json.image rails_blob_url(comment.image)
+    end
   end
 
   json.relationships do
