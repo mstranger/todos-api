@@ -10,12 +10,14 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  project_id :integer          not null
+#  order      :integer          not null
 #
 class Task < ApplicationRecord
   validates :title, presence: true,
                     uniqueness: {scope: :project, case_sensitive: false},
                     length: {minimum: 3}
 
+  # TODO: remove priority, if order exists
   validates :priority, presence: true
 
   belongs_to :project

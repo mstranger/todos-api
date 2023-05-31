@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_27_095229) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_30_143011) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -66,6 +69,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_095229) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "project_id", null: false
+    t.serial "order", null: false
     t.index ["project_id"], name: "index_tasks_on_project_id"
     t.index ["title", "project_id"], name: "index_tasks_on_title_and_project_id", unique: true
   end

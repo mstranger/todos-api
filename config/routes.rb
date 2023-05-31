@@ -13,6 +13,8 @@ Rails.application.routes.draw do
           resources :comments, only: %i[index create destroy]
 
           post "toggle", on: :member
+          post "up", on: :member
+          post "down", on: :member
         end
       end
     end
