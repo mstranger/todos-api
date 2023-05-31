@@ -5,7 +5,6 @@
 #  id         :bigint           not null, primary key
 #  title      :string           not null
 #  deadline   :datetime
-#  priority   :integer          default(0), not null
 #  completed  :boolean          default(FALSE), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null

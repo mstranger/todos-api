@@ -28,12 +28,10 @@ class Api::V1::TasksController < Api::V1::ApiController
     param :data, Hash, required: true do
       param :title, String, "What are you going to do", required: true
       param :deadline, String, "For example, in format: 'yyyy-mm-dd hh:mm'"
-      param :priority, :number, "Positive integer (0 by default)"
     end
   end
 
   # TODO: test order by priority and created_at
-  # TODO: change priority to order?
 
   api! "All tasks"
   param_group :jwt_info
@@ -137,7 +135,7 @@ class Api::V1::TasksController < Api::V1::ApiController
   private
 
   def task_params
-    params.require(:data).permit(:title, :deadline, :priority, :completed)
+    params.require(:data).permit(:title, :deadline, :completed)
   end
 
   def find_project
