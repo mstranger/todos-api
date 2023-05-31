@@ -40,7 +40,7 @@ class Api::V1::TasksController < Api::V1::ApiController
   param :project_id, :number, required: true
   #
   def index
-    @tasks = @project.tasks.order("priority DESC, created_at ASC").includes([:comments])
+    @tasks = @project.tasks.order(:order).includes([:comments])
   end
 
   api! "Show task"
