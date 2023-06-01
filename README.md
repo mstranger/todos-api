@@ -9,7 +9,7 @@ Main resources:
 - tasks
 - comments
 
-## Run
+## Running
 
 The postgresql database is used through a Docker container. Edit the db file settings if it's not.
 So first you need to run this container.
@@ -35,6 +35,10 @@ docker compose up
 docker compose exec web bin/rails db:setup
 docker compose exec web bin/rails server
 ```
+
+## Client app
+
+See [this](https://github.com/mstranger/todos-client) page.
 
 ## Docs
 
