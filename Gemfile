@@ -45,6 +45,7 @@ group :development do
   gem "rubocop-performance", "~> 1.17", require: false
   gem "database_consistency", require: false
   gem "brakeman", require: false
+  gem "bundler-audit", require: false
 end
 
 group :test do

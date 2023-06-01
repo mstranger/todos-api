@@ -82,6 +82,9 @@ GEM
     bullet (7.0.7)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
+    bundler-audit (0.9.1)
+      bundler (>= 1.2.0, < 3)
+      thor (~> 1.0)
     concurrent-ruby (1.2.2)
     crass (1.0.6)
     database_consistency (1.7.8)
@@ -192,7 +195,7 @@ GEM
       rubocop-ast (>= 1.28.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 3.0)
-    rubocop-ast (1.28.1)
+    rubocop-ast (1.29.0)
       parser (>= 3.2.1.0)
     rubocop-performance (1.18.0)
       rubocop (>= 1.7.0, < 2.0)
@@ -229,6 +232,7 @@ DEPENDENCIES
   bootsnap
   brakeman
   bullet (~> 7.0)
+  bundler-audit
   database_consistency
   debug
   jbuilder
