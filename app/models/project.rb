@@ -19,4 +19,6 @@ class Project < ApplicationRecord
 
   # TODO: test this
   before_validation(on: :create) { name.strip! }
+
+  scope :with_tasks, -> { includes([:tasks]) }
 end

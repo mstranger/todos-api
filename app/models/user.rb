@@ -13,9 +13,11 @@ class User < ApplicationRecord
   has_secure_password
 
   # TODO: password test validation
+  # TODO: email case sensitive validation
 
   validates :email,
             presence: true,
+            format: {with: URI::MailTo::EMAIL_REGEXP},
             uniqueness: {message: I18n.t("user.errors.login_exists")},
             length: {minimum: 3, maximum: 50}
   validates :password,

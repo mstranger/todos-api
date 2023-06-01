@@ -13,6 +13,7 @@
 #
 class Task < ApplicationRecord
   # TODO: test 'order' column
+  # TODO: 'order' column to 'position' ?
 
   validates :title, presence: true,
                     uniqueness: {scope: :project, case_sensitive: false},
@@ -20,4 +21,6 @@ class Task < ApplicationRecord
 
   belongs_to :project
   has_many :comments, dependent: :destroy
+
+  scope :with_comments, -> { includes([:comments]) }
 end
