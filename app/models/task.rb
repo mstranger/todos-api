@@ -9,11 +9,10 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  project_id :integer          not null
-#  order      :integer          not null
+#  position   :integer          not null
 #
 class Task < ApplicationRecord
-  # TODO: test 'order' column
-  # TODO: 'order' column to 'position' ?
+  # TODO: test 'position' column
 
   validates :title, presence: true,
                     uniqueness: {scope: :project, case_sensitive: false},

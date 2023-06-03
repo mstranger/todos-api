@@ -31,14 +31,14 @@ class Api::V1::TasksController < Api::V1::ApiController
     end
   end
 
-  # TODO: test order by priority and created_at
+  # TODO: test order by position
 
   api! "All tasks"
   param_group :jwt_info
   param :project_id, :number, required: true
   #
   def index
-    @tasks = @project.tasks.order(:order).includes([:comments])
+    @tasks = @project.tasks.order(:position).includes([:comments])
   end
 
   api! "Show task"
@@ -109,7 +109,7 @@ class Api::V1::TasksController < Api::V1::ApiController
   param_group :both_ids
   #
   def down
-    tasks = @project.tasks.order(:order)
+    tasks = @project.tasks.order(:position)
     idx = tasks.index { |t| t.id == @task.id }
 
     return render(json: :ok) if idx == tasks.count - 1
@@ -123,7 +123,7 @@ class Api::V1::TasksController < Api::V1::ApiController
   param_group :both_ids
   #
   def up
-    tasks = @project.tasks.order(:order)
+    tasks = @project.tasks.order(:position)
     idx = tasks.index { |t| t.id == @task.id }
 
     return render(json: :ok) if idx == 0
@@ -151,7 +151,7 @@ class Api::V1::TasksController < Api::V1::ApiController
   end
 
   def swap_order(task1, task2)
-    task1.order, task2.order = task2.order, task1.order
+    task1.position, task2.position = task2.position, task1.position
     task1.save
     task2.save
   end
