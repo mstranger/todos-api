@@ -12,12 +12,10 @@ class Project < ApplicationRecord
   belongs_to :user
   has_many :tasks, dependent: :destroy
 
-  # TODO: test case sensitive
-  validates :name, 
-    presence: {message: I18n.t("project.errors.name_blank")},
-    uniqueness: {scope: :user, case_sensitive: false, message: I18n.t("project.errors.name_exists")}
+  validates :name,
+            presence: {message: I18n.t("project.errors.name_blank")},
+            uniqueness: {scope: :user, case_sensitive: false, message: I18n.t("project.errors.name_exists")}
 
-  # TODO: test this
   before_validation(on: :create) { name.strip! }
 
   scope :with_tasks, -> { includes([:tasks]) }

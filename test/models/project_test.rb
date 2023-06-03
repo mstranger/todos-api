@@ -25,6 +25,13 @@ class ProjectTest < ActiveSupport::TestCase
     assert_not_nil @project.errors.messages.fetch(:name, nil)
   end
 
+  test "invalid with same name in uppercase" do
+    error_message = I18n.t("project.errors.name_exists")
+    new_project = Project.new(name: @project.name.upcase, user: @project.user)
+    assert_not new_project.valid?
+    assert_equal new_project.errors.messages.fetch(:name).first, error_message
+  end
+
   test "associations" do
     assert_respond_to @project, :user, "belongs to user"
     assert_respond_to @project, :tasks, "has many tasks"
@@ -41,5 +48,11 @@ class ProjectTest < ActiveSupport::TestCase
 
     assert_not new_project.valid?
     assert_not_nil new_project.errors.messages.fetch(:name, nil)
+  end
+
+  test "trim whitespaces" do
+    name = "new name    "
+    new_project = Project.create(name: name, user: @project.user)
+    assert_equal name.strip, new_project.name
   end
 end

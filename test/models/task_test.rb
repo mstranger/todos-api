@@ -53,6 +53,17 @@ class TaskTest < ActiveSupport::TestCase
     assert_not_nil new_task.errors.messages.fetch(:title, nil)
   end
 
+  test "invalid with same title in uppercase" do
+    new_task = Task.new(title: @task.title.upcase, project: @task.project)
+    assert_not new_task.valid?
+  end
+
+  test "trim whitespaces" do
+    title = "new title    "
+    new_task = Task.create(title: title, project: @task.project)
+    assert_equal title.strip, new_task.title
+  end
+
   test "valid with same title and different projects" do
     new_task = Task.new(title: @task.title, project: projects(:two))
     assert new_task.valid?

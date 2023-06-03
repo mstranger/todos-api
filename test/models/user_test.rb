@@ -13,7 +13,7 @@ require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
   setup do
-    @user = User.new(email: "foo@bar.com", password: "password")
+    @user = User.new(email: "foo@bar.com", password: "PASSword123")
   end
 
   test "valid user" do
@@ -32,9 +32,25 @@ class UserTest < ActiveSupport::TestCase
     assert_not_nil @user.errors.messages.fetch(:password, nil)
   end
 
+  test "invalid with short password" do
+    @user.password = "12345"
+    assert_not @user.valid?
+  end
+
+  test "invalid when password has inproper symbols" do
+    @user.password = "123$abc#"
+    assert_not @user.valid?
+  end
+
   test "invalid with existing email" do
     @user.email = users(:john).email
     assert_not @user.valid?
+  end
+
+  test "email case insensitive" do
+    @user.save
+    new_user = User.new(email: @user.email.upcase, password: "password")
+    assert_not new_user.valid?
   end
 
   test "relationships" do
