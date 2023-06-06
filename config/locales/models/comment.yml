@@ -1,0 +1,7 @@
+en:
+  comment:
+    errors:
+      image_invalid: "must be a JPEG or PNG file"
+      image_large: "is too big (should be less than %{size}Mb)"
+      empty_record: "or attachment must be present"
+      content_large: "should be less than %{size} chars"

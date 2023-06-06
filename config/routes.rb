@@ -6,8 +6,6 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
-
-      # TODO: shallow ?
       resources :projects do
         resources :tasks do
           resources :comments, only: %i[index create destroy]

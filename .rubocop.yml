@@ -43,5 +43,8 @@ Metrics/MethodLength:
 Metrics/ClassLength:
   Max: 150
 
+Metrics/AbcSize:
+  Max: 20
+
 Bundler/OrderedGems:
   Enabled: false
