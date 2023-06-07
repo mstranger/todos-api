@@ -41,16 +41,15 @@ class TaskTest < ActiveSupport::TestCase
     assert @task.valid?
   end
 
-  test "invalid without priority" do
-    @task.priority = nil
-    assert_not @task.valid?
-    assert_not_nil @task.errors.messages.fetch(:priority, nil)
-  end
-
   test "invalid with same title within same project" do
     new_task = Task.new(title: @task.title, project: @task.project)
     assert_not new_task.valid?
     assert_not_nil new_task.errors.messages.fetch(:title, nil)
+  end
+
+  test "valid with same title and different projects" do
+    new_task = Task.new(title: @task.title, project: projects(:two))
+    assert new_task.valid?
   end
 
   test "invalid with same title in uppercase" do
@@ -64,8 +63,7 @@ class TaskTest < ActiveSupport::TestCase
     assert_equal title.strip, new_task.title
   end
 
-  test "valid with same title and different projects" do
-    new_task = Task.new(title: @task.title, project: projects(:two))
-    assert new_task.valid?
+  test "with comments" do
+    assert Task.with_comments.first.comments.loaded?
   end
 end

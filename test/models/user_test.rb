@@ -35,11 +35,22 @@ class UserTest < ActiveSupport::TestCase
   test "invalid with short password" do
     @user.password = "12345"
     assert_not @user.valid?
+
+    @user.password = "123456"
+    assert @user.valid?
   end
 
   test "invalid when password has inproper symbols" do
     @user.password = "123$abc#"
     assert_not @user.valid?
+  end
+
+  test "invalid with invalid email" do
+    bad_emails = %w[some.mail.com @mail.com joe:)@mail.com]
+    bad_emails.each do |mail|
+      @user.email = mail
+      assert_not @user.valid?, "must be invalid for #{mail}"
+    end
   end
 
   test "invalid with existing email" do

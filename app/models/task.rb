@@ -12,8 +12,6 @@
 #  position   :integer          not null
 #
 class Task < ApplicationRecord
-  # TODO: test 'position' behavior
-
   validates :title, presence: true,
                     uniqueness: {scope: :project, case_sensitive: false},
                     length: {minimum: 3}
