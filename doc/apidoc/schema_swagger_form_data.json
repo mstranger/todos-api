@@ -12,171 +12,143 @@
     "multipart/form-data"
   ],
   "paths": {
-    "/api/v1/tasks": {
+    "/api/v1/projects/{project_id}/tasks/{task_id}/comments": {
       "get": {
         "tags": [
-          "tasks"
+          "comments"
         ],
         "consumes": [
           "application/x-www-form-urlencoded",
           "multipart/form-data"
         ],
-        "operationId": "get_api_v1_tasks",
-        "summary": "All tasks",
+        "operationId": "get_api_v1_projects_project_id_tasks_task_id_comments",
+        "summary": "Comments list",
         "parameters": [
-
+          {
+            "name": "task_id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "project_id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          }
         ],
         "responses": {
+          "401": {
+            "description": "Need to login first"
+          },
+          "403": {
+            "description": "No access to perform action"
+          },
           "404": {
-            "description": "Missing"
+            "description": "Missing entity"
           }
         },
         "description": ""
       },
       "post": {
         "tags": [
-          "tasks"
+          "comments"
         ],
         "consumes": [
           "application/x-www-form-urlencoded",
           "multipart/form-data"
         ],
-        "operationId": "post_api_v1_tasks",
-        "summary": "Create new task",
+        "operationId": "post_api_v1_projects_project_id_tasks_task_id_comments",
+        "summary": "Add a new comment",
         "parameters": [
           {
-            "name": "data[title]",
+            "name": "content",
             "type": "string",
             "in": "formData",
-            "required": true,
-            "description": "What are we going to do"
+            "required": true
+          },
+          {
+            "name": "task_id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "project_id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "file",
+            "type": "string",
+            "in": "formData",
+            "description": "uploaded file"
           }
         ],
         "responses": {
+          "401": {
+            "description": "Need to login first"
+          },
+          "403": {
+            "description": "No access to perform action"
+          },
           "404": {
-            "description": "Missing"
+            "description": "Missing entity"
+          },
+          "422": {
+            "description": "Invalid request data"
           }
         },
         "description": ""
       }
     },
-    "/api/v1/tasks/{id}": {
-      "get": {
-        "tags": [
-          "tasks"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded",
-          "multipart/form-data"
-        ],
-        "operationId": "get_api_v1_tasks_id",
-        "summary": "Show task",
-        "parameters": [
-          {
-            "name": "id",
-            "type": "number",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {
-          "404": {
-            "description": "Missing"
-          }
-        },
-        "description": ""
-      },
-      "patch": {
-        "tags": [
-          "tasks"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded",
-          "multipart/form-data"
-        ],
-        "operationId": "patch_api_v1_tasks_id",
-        "summary": "Update task",
-        "parameters": [
-          {
-            "name": "data[title]",
-            "type": "string",
-            "in": "formData",
-            "required": true,
-            "description": "What are we going to do"
-          },
-          {
-            "name": "id",
-            "type": "number",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {
-          "404": {
-            "description": "Missing"
-          }
-        },
-        "description": ""
-      },
-      "put": {
-        "tags": [
-          "tasks"
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded",
-          "multipart/form-data"
-        ],
-        "operationId": "put_api_v1_tasks_id",
-        "summary": "Update task",
-        "parameters": [
-          {
-            "name": "data[title]",
-            "type": "string",
-            "in": "formData",
-            "required": true,
-            "description": "What are we going to do"
-          },
-          {
-            "name": "id",
-            "type": "number",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {
-          "404": {
-            "description": "Missing"
-          }
-        },
-        "description": ""
-      },
+    "/api/v1/projects/{project_id}/tasks/{task_id}/comments/{id}": {
       "delete": {
         "tags": [
-          "tasks"
+          "comments"
         ],
         "consumes": [
           "application/x-www-form-urlencoded",
           "multipart/form-data"
         ],
-        "operationId": "delete_api_v1_tasks_id",
-        "summary": "Delete task",
+        "operationId": "delete_api_v1_projects_project_id_tasks_task_id_comments_id",
+        "summary": "Delete a comment",
         "parameters": [
           {
             "name": "id",
             "type": "number",
             "in": "path",
             "required": true
+          },
+          {
+            "name": "task_id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "project_id",
+            "type": "number",
+            "in": "path",
+            "required": true
           }
         ],
         "responses": {
+          "401": {
+            "description": "Need to login first"
+          },
+          "403": {
+            "description": "No access to perform action"
+          },
           "404": {
-            "description": "Missing"
+            "description": "Missing entity"
           }
         },
         "description": ""
       }
     },
-    "/users": {
+    "/auth/signup": {
       "post": {
         "tags": [
           "users"
@@ -185,7 +157,7 @@
           "application/x-www-form-urlencoded",
           "multipart/form-data"
         ],
-        "operationId": "post_users",
+        "operationId": "post_auth_signup",
         "summary": "New user registration",
         "parameters": [
           {
@@ -202,12 +174,17 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "ok"
+          "422": {
+            "description": "Invalid request data"
+          },
+          "201": {
+            "description": "Successful registration"
           }
         },
         "description": ""
-      },
+      }
+    },
+    "/users": {
       "put": {
         "tags": [
           "users"
@@ -220,12 +197,6 @@
         "summary": "Update user info",
         "parameters": [
           {
-            "name": "password",
-            "type": "string",
-            "in": "formData",
-            "required": true
-          },
-          {
             "name": "email",
             "type": "string",
             "in": "formData",
@@ -233,11 +204,14 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "ok"
+          "401": {
+            "description": "Unauthorized request"
+          },
+          "422": {
+            "description": "Invalid request data"
           }
         },
-        "description": "Need to use jwt token for authentication"
+        "description": "Use JWT token for user authentication"
       },
       "patch": {
         "tags": [
@@ -251,12 +225,6 @@
         "summary": "Update user info",
         "parameters": [
           {
-            "name": "password",
-            "type": "string",
-            "in": "formData",
-            "required": true
-          },
-          {
             "name": "email",
             "type": "string",
             "in": "formData",
@@ -264,11 +232,14 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "ok"
+          "401": {
+            "description": "Unauthorized request"
+          },
+          "422": {
+            "description": "Invalid request data"
           }
         },
-        "description": "Need to use jwt token for authentication"
+        "description": "Use JWT token for user authentication"
       }
     },
     "/me": {
@@ -286,11 +257,587 @@
 
         ],
         "responses": {
-          "200": {
-            "description": "ok"
+          "401": {
+            "description": "Unauthorized request"
           }
         },
-        "description": "Need to use jwt token for authentication"
+        "description": "Use JWT token for user authentication"
+      }
+    },
+    "/api/v1/projects/{project_id}/tasks": {
+      "get": {
+        "tags": [
+          "tasks"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "operationId": "get_api_v1_projects_project_id_tasks",
+        "summary": "All tasks",
+        "parameters": [
+          {
+            "name": "project_id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Need to login first"
+          },
+          "403": {
+            "description": "No access to perform action"
+          },
+          "404": {
+            "description": "Missing entity"
+          }
+        },
+        "description": "Use JWT token for user authentication"
+      },
+      "post": {
+        "tags": [
+          "tasks"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "operationId": "post_api_v1_projects_project_id_tasks",
+        "summary": "Create new task",
+        "parameters": [
+          {
+            "name": "data[title]",
+            "type": "string",
+            "in": "formData",
+            "required": true,
+            "description": "What are you going to do"
+          },
+          {
+            "name": "project_id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "data[deadline]",
+            "type": "string",
+            "in": "formData",
+            "description": "For example, in format: 'yyyy-mm-dd hh:mm'"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Need to login first"
+          },
+          "403": {
+            "description": "No access to perform action"
+          },
+          "404": {
+            "description": "Missing entity"
+          },
+          "422": {
+            "description": "Invalid request data"
+          }
+        },
+        "description": "Use JWT token for user authentication"
+      }
+    },
+    "/api/v1/projects/{project_id}/tasks/{id}": {
+      "get": {
+        "tags": [
+          "tasks"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "operationId": "get_api_v1_projects_project_id_tasks_id",
+        "summary": "Show task",
+        "parameters": [
+          {
+            "name": "project_id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Need to login first"
+          },
+          "403": {
+            "description": "No access to perform action"
+          },
+          "404": {
+            "description": "Missing entity"
+          }
+        },
+        "description": "Use JWT token for user authentication"
+      },
+      "patch": {
+        "tags": [
+          "tasks"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "operationId": "patch_api_v1_projects_project_id_tasks_id",
+        "summary": "Update task",
+        "parameters": [
+          {
+            "name": "data[title]",
+            "type": "string",
+            "in": "formData",
+            "required": true,
+            "description": "What are you going to do"
+          },
+          {
+            "name": "project_id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "data[deadline]",
+            "type": "string",
+            "in": "formData",
+            "description": "For example, in format: 'yyyy-mm-dd hh:mm'"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Need to login first"
+          },
+          "403": {
+            "description": "No access to perform action"
+          },
+          "404": {
+            "description": "Missing entity"
+          },
+          "422": {
+            "description": "Invalid request data"
+          }
+        },
+        "description": "Use JWT token for user authentication"
+      },
+      "put": {
+        "tags": [
+          "tasks"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "operationId": "put_api_v1_projects_project_id_tasks_id",
+        "summary": "Update task",
+        "parameters": [
+          {
+            "name": "data[title]",
+            "type": "string",
+            "in": "formData",
+            "required": true,
+            "description": "What are you going to do"
+          },
+          {
+            "name": "project_id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "data[deadline]",
+            "type": "string",
+            "in": "formData",
+            "description": "For example, in format: 'yyyy-mm-dd hh:mm'"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Need to login first"
+          },
+          "403": {
+            "description": "No access to perform action"
+          },
+          "404": {
+            "description": "Missing entity"
+          },
+          "422": {
+            "description": "Invalid request data"
+          }
+        },
+        "description": "Use JWT token for user authentication"
+      },
+      "delete": {
+        "tags": [
+          "tasks"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "operationId": "delete_api_v1_projects_project_id_tasks_id",
+        "summary": "Delete task",
+        "parameters": [
+          {
+            "name": "project_id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Need to login first"
+          },
+          "403": {
+            "description": "No access to perform action"
+          },
+          "404": {
+            "description": "Missing entity"
+          }
+        },
+        "description": "Use JWT token for user authentication"
+      }
+    },
+    "/api/v1/projects/{project_id}/tasks/{id}/toggle": {
+      "post": {
+        "tags": [
+          "tasks"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "operationId": "post_api_v1_projects_project_id_tasks_id_toggle",
+        "summary": "Toggle completed",
+        "parameters": [
+          {
+            "name": "project_id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Need to login first"
+          },
+          "403": {
+            "description": "No access to perform action"
+          },
+          "404": {
+            "description": "Missing entity"
+          }
+        },
+        "description": "Use JWT token for user authentication"
+      }
+    },
+    "/api/v1/projects/{project_id}/tasks/{id}/down": {
+      "post": {
+        "tags": [
+          "tasks"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "operationId": "post_api_v1_projects_project_id_tasks_id_down",
+        "summary": "Move the task down one step",
+        "parameters": [
+          {
+            "name": "project_id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Need to login first"
+          },
+          "403": {
+            "description": "No access to perform action"
+          },
+          "404": {
+            "description": "Missing entity"
+          }
+        },
+        "description": "Use JWT token for user authentication"
+      }
+    },
+    "/api/v1/projects/{project_id}/tasks/{id}/up": {
+      "post": {
+        "tags": [
+          "tasks"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "operationId": "post_api_v1_projects_project_id_tasks_id_up",
+        "summary": "Move the task up one step",
+        "parameters": [
+          {
+            "name": "project_id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Need to login first"
+          },
+          "403": {
+            "description": "No access to perform action"
+          },
+          "404": {
+            "description": "Missing entity"
+          }
+        },
+        "description": "Use JWT token for user authentication"
+      }
+    },
+    "/api/v1/projects": {
+      "get": {
+        "tags": [
+          "projects"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "operationId": "get_api_v1_projects",
+        "summary": "All projects",
+        "parameters": [
+
+        ],
+        "responses": {
+          "401": {
+            "description": "Need to login first"
+          }
+        },
+        "description": "Use JWT token for user authentication"
+      },
+      "post": {
+        "tags": [
+          "projects"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "operationId": "post_api_v1_projects",
+        "summary": "Create new project",
+        "parameters": [
+          {
+            "name": "data[name]",
+            "type": "string",
+            "in": "formData",
+            "required": true,
+            "description": "Project title"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Need to login first"
+          },
+          "422": {
+            "description": "Invalid request data"
+          }
+        },
+        "description": "Use JWT token for user authentication"
+      }
+    },
+    "/api/v1/projects/{id}": {
+      "get": {
+        "tags": [
+          "projects"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "operationId": "get_api_v1_projects_id",
+        "summary": "Show project",
+        "parameters": [
+          {
+            "name": "id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Need to login first"
+          },
+          "403": {
+            "description": "No access to perform action"
+          },
+          "404": {
+            "description": "Missing entity"
+          }
+        },
+        "description": "Use JWT token for user authentication"
+      },
+      "patch": {
+        "tags": [
+          "projects"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "operationId": "patch_api_v1_projects_id",
+        "summary": "Update project",
+        "parameters": [
+          {
+            "name": "data[name]",
+            "type": "string",
+            "in": "formData",
+            "required": true,
+            "description": "Project title"
+          },
+          {
+            "name": "id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Need to login first"
+          },
+          "403": {
+            "description": "No access to perform action"
+          },
+          "404": {
+            "description": "Missing entity"
+          },
+          "422": {
+            "description": "Invalid request data"
+          }
+        },
+        "description": "Use JWT token for user authentication"
+      },
+      "put": {
+        "tags": [
+          "projects"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "operationId": "put_api_v1_projects_id",
+        "summary": "Update project",
+        "parameters": [
+          {
+            "name": "data[name]",
+            "type": "string",
+            "in": "formData",
+            "required": true,
+            "description": "Project title"
+          },
+          {
+            "name": "id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Need to login first"
+          },
+          "403": {
+            "description": "No access to perform action"
+          },
+          "404": {
+            "description": "Missing entity"
+          },
+          "422": {
+            "description": "Invalid request data"
+          }
+        },
+        "description": "Use JWT token for user authentication"
+      },
+      "delete": {
+        "tags": [
+          "projects"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "operationId": "delete_api_v1_projects_id",
+        "summary": "Delete project",
+        "parameters": [
+          {
+            "name": "id",
+            "type": "number",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Need to login first"
+          },
+          "403": {
+            "description": "No access to perform action"
+          },
+          "404": {
+            "description": "Missing entity"
+          }
+        },
+        "description": "Use JWT token for user authentication"
       }
     },
     "/auth/login": {
@@ -319,8 +866,24 @@
           }
         ],
         "responses": {
+          "401": {
+            "description": "Invalid credentials"
+          },
           "200": {
-            "description": "ok"
+            "description": "Successful login",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "description": "json web token"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "token"
+              ]
+            }
           }
         },
         "description": ""
