@@ -9,7 +9,7 @@ class AuthenticationController < ApplicationController
   api! "User login"
   param :email, String, required: true
   param :password, String, required: true
-  returns code: 200, desc: "a successful login" do
+  returns code: 200, desc: "Successful login" do
     property :token, String, desc: "json web token"
   end
   #

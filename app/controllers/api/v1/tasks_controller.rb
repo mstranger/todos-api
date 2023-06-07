@@ -31,8 +31,6 @@ class Api::V1::TasksController < Api::V1::ApiController
     end
   end
 
-  # TODO: test order by position
-
   api! "All tasks"
   param_group :jwt_info
   param :project_id, :number, required: true

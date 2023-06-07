@@ -14,6 +14,7 @@ class UsersController < ApplicationController
   param :email, String, required: true
   param :password, String, required: true
   error 422, "Invalid request data"
+  returns code: 201, desc: "Successful registration"
   #
   def create
     @user = User.new(user_params)
