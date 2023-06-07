@@ -65,6 +65,30 @@ class Api::V1::TasksControllerTest < ActionDispatch::IntegrationTest
     assert @task.reload.completed
   end
 
+  test "UP task" do
+    new_task = Task.create(title: "new task", project: @project)
+    p1, p2 = @task.position, new_task.reload.position
+
+    post up_api_v1_project_task_path(@project, new_task),
+         headers: {Authorization: "HS256 #{@token}"}
+
+    assert_response :ok
+    assert_equal p2, @task.reload.position
+    assert_equal p1, new_task.reload.position
+  end
+
+  test "DOWN task" do
+    new_task = Task.create(title: "new task", project: @project)
+    p1, p2 = @task.position, new_task.reload.position
+
+    post down_api_v1_project_task_path(@project, @task),
+         headers: {Authorization: "HS256 #{@token}"}
+
+    assert_response :ok
+    assert_equal p2, @task.reload.position
+    assert_equal p1, new_task.reload.position
+  end
+
   ### fail
 
   test "GET index fail no auth" do
@@ -123,6 +147,14 @@ class Api::V1::TasksControllerTest < ActionDispatch::IntegrationTest
   test "TOGGLE task fail no auth" do
     post toggle_api_v1_project_task_path(@project, @task)
 
+    assert_response :unauthorized
+  end
+
+  test "UP and DOWN task fail no auth" do
+    post up_api_v1_project_task_path(@project, @task)
+    assert_response :unauthorized
+
+    post down_api_v1_project_task_path(@project, @task)
     assert_response :unauthorized
   end
 end
