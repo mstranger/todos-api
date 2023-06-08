@@ -42,5 +42,5 @@ See [this](https://github.com/mstranger/todos-client) page.
 
 ## Docs
 
-To view the documentation local visit [http://localhost:3000/apipie](localhost:3000/apipie).  
-In swagger format: [https://app.swaggerhub.com/apis/MSTRANGER/todos-api/1.0.0](api).
+To view the documentation local visit [http://localhost:3000/apipie](http://localhost:3000/apipie) page.  
+In swagger format: [api](https://app.swaggerhub.com/apis/MSTRANGER/todos-api/1.0.0).
