@@ -58,7 +58,7 @@ jobs:
       - name: Database audit
         run: bundle exec database_consistency
       - name: Run tests
-        run: bin/rake
+        run: COVERAGE=true bin/rake
       - name: Get coverage artifacts
         uses: actions/upload-artifact@v3
         with:
