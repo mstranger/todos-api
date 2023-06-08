@@ -1,5 +1,12 @@
-require "simplecov"
-SimpleCov.start "rails"
+if ENV["COVERAGE"]
+  require "simplecov"
+
+  SimpleCov.start("rails") do
+    add_filter %w[app/jobs app/mailers app/channels]
+  end
+
+  puts "SimpleCov started successfully!"
+end
 
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
@@ -16,9 +23,7 @@ Minitest::Test.include(JsonMatchers::Minitest::Assertions)
 
 class ActiveSupport::TestCase
   parallelize(workers: :number_of_processors)
-
   fixtures :all
-
   # make_my_diffs_pretty!
 end
 

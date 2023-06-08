@@ -7,7 +7,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "create user" do
     assert_difference("User.count") do
-      post users_path, params: {email: "new@mail.com", password: "password"}
+      post auth_signup_path, params: {email: "new@mail.com", password: "password"}
     end
 
     assert_response 201
@@ -39,7 +39,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "create user fail" do
     assert_no_difference("User.count") do
-      post users_path, params: {email: @user.email, password: "password"}
+      post auth_signup_path, params: {email: @user.email, password: "password"}
     end
 
     assert_response 422

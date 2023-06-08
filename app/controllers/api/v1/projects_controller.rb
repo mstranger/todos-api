@@ -29,7 +29,9 @@ class Api::V1::ProjectsController < Api::V1::ApiController
   param_group :jwt_info
   #
   def index
-    @projects = Project.where(user_id: @current_user.id).includes(%i[user tasks])
+    @projects = Project.where(user_id: @current_user.id)
+                       .order(:created_at)
+                       .includes(%i[user tasks])
   end
 
   api! "Show project"

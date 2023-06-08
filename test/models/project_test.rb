@@ -2,7 +2,7 @@
 #
 # Table name: projects
 #
-#  id         :integer          not null, primary key
+#  id         :bigint           not null, primary key
 #  name       :string           not null
 #  user_id    :integer          not null
 #  created_at :datetime         not null
@@ -25,21 +25,36 @@ class ProjectTest < ActiveSupport::TestCase
     assert_not_nil @project.errors.messages.fetch(:name, nil)
   end
 
-  test "associations" do
-    assert_respond_to @project, :user, "belongs to user"
-    assert_respond_to @project, :tasks, "has many tasks"
+  test "invalid with same name in uppercase" do
+    error_message = I18n.t("project.errors.name_exists")
+    new_project = Project.new(name: @project.name.upcase, user: @project.user)
+    assert_not new_project.valid?
+    assert_equal new_project.errors.messages.fetch(:name).first, error_message
   end
 
   test "valid with same name for different users" do
     new_project = Project.new(name: @project.name, user: users(:mike))
-
     assert new_project.valid?
   end
 
   test "invalid with same name within same user" do
     new_project = Project.new(name: @project.name, user: @project.user)
-
     assert_not new_project.valid?
     assert_not_nil new_project.errors.messages.fetch(:name, nil)
+  end
+
+  test "trim whitespaces" do
+    name = "new name    "
+    new_project = Project.create(name: name, user: @project.user)
+    assert_equal name.strip, new_project.name
+  end
+
+  test "associations" do
+    assert_respond_to @project, :user, "belongs to user"
+    assert_respond_to @project, :tasks, "has many tasks"
+  end
+
+  test "includes tasks when needed" do
+    assert Project.with_tasks.first.tasks.loaded?
   end
 end

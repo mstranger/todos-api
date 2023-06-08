@@ -3,3 +3,5 @@ en:
     errors:
       forbidden: "Not enough rigths"
       not_permitted: "Not permitted"
+      name_exists: "The project with such name does already exist"
+      name_blank: "The project's name can't be blank"

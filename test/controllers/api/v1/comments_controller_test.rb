@@ -24,11 +24,12 @@ class Api::V1::CommentsControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Comment.count") do
       post api_v1_project_task_comments_path(@project, @task),
            headers: {Authorization: "HS256 #{@token}"},
-           params: {content: new_comment}
+           params: {content: new_comment, image: fixture_file_upload("example.jpg", "image/jpeg")}
     end
 
     assert_response :created
     assert_equal 2, @task.reload.comments.count
+    assert Comment.last.image.attached?
   end
 
   test "DELETE comment" do

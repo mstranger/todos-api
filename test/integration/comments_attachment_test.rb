@@ -12,7 +12,7 @@ class CommentsAttachmentTest < ActionDispatch::IntegrationTest
          headers: {Authorization: "HS256 #{@token}"},
          params: {
            content: "example",
-           file: fixture_file_upload("example.jpg", "image/jpeg")
+           image: fixture_file_upload("example.jpg", "image/jpeg")
          }
 
     comment = @task.reload.comments.last

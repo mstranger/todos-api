@@ -31,6 +31,9 @@ Style/HashSyntax:
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
 
+Style/ParallelAssignment:
+  Enabled: false
+
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
 
@@ -39,6 +42,12 @@ Layout/EmptyComment:
 
 Metrics/MethodLength:
   Max: 15
+
+Metrics/ClassLength:
+  Max: 150
+
+Metrics/AbcSize:
+  Max: 20
 
 Bundler/OrderedGems:
   Enabled: false

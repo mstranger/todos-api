@@ -4,8 +4,10 @@
 - [x] jwt authentication
 - [x] api documentation
 - [x] comments attachments
-- [ ] check with story doc
+- [x] check with story doc
 - [x] docker container
 - [x] use postgres
-- [ ] write simple client
+- [x] write client app
 - [x] CI
+- [x] more tests
+- [ ] use s3 storage

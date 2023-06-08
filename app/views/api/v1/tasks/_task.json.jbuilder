@@ -7,7 +7,7 @@ json.data do
   json.type :tasks
 
   json.attributes do
-    json.extract! task, :title, :deadline, :priority, :completed
+    json.extract! task, :title, :deadline, :position, :completed, :created_at, :updated_at
   end
 
   json.relationships do
