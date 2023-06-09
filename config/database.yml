@@ -3,21 +3,29 @@ default: &default
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
-  # host: db
-  url: postgresql://0.0.0.0:5432
-  username: <%= Rails.application.credentials.dig(:pg, :user) %>
-  password: <%= Rails.application.credentials.dig(:pg, :password) %>
 
 ### env
 
 development:
   <<: *default
+  # host: db
+  url: postgresql://0.0.0.0:5432
+  username: <%= Rails.application.credentials.dig(:pg, :user) %>
+  password: <%= Rails.application.credentials.dig(:pg, :password) %>
   database: todo-api_dev
 
 test:
   <<: *default
+  # host: db
+  url: postgresql://0.0.0.0:5432
+  username: <%= Rails.application.credentials.dig(:pg, :user) %>
+  password: <%= Rails.application.credentials.dig(:pg, :password) %>
   database: todo-api_test
 
 production:
   <<: *default
-  database: todo-api_prod
+  host: <%= Rails.application.credentials.dig(:rds, :host) %>
+  port: <%= Rails.application.credentials.dig(:rds, :port) %>
+  username: <%= Rails.application.credentials.dig(:rds, :user) %>
+  password: <%= Rails.application.credentials.dig(:rds, :password) %>
+  database: todoapi_prod
