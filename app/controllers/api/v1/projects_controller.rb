@@ -51,7 +51,6 @@ class Api::V1::ProjectsController < Api::V1::ApiController
   def create
     @project = Project.new(project_params.merge(user_id: @current_user.id))
     @project.save!
-
     render json: :ok, status: :created
   end
 
@@ -63,7 +62,6 @@ class Api::V1::ProjectsController < Api::V1::ApiController
   def update
     if @project.user == @current_user
       @project.update!(project_params)
-
       render json: :ok
     else
       render json: t("project.errors.not_permitted"), status: :forbidden

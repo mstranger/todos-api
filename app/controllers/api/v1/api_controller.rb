@@ -5,8 +5,6 @@ class Api::V1::ApiController < ApplicationController
   private
 
   def record_invalid(exception)
-    # render json: {errors: exception.record.errors.messages.map { |_k, v| v }.flatten},
-    #        status: :unprocessable_entity
     render json: {errors: exception.record.errors.full_messages},
            status: :unprocessable_entity
   end
