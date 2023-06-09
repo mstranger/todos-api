@@ -7,6 +7,7 @@ gem "rails", "~> 7.0"
 gem "pg", "~> 1.5"
 gem "puma", "~> 5.0"
 gem "jbuilder"
+gem "aws-sdk-s3", "~> 1"
 
 gem "bcrypt", "~> 3.1.7"
 gem "jwt", "~> 2.7"
