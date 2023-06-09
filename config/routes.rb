@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   apipie
 
+  get "/", to: ->(env) { [204, {}, [""]] }
+
   get "/me", to: "users#me"
   match "/users", to: "users#update", via: %i[put patch]
 
