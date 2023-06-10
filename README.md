@@ -18,7 +18,7 @@ docker compose build
 docker compose up/down
 ```
 
-Setup database and run the server:
+Setup database and run the server.
 
 ```bash
 bundle install
@@ -36,7 +36,7 @@ docker compose exec web bin/rails server
 
 ## Testing
 
-To show code coverage, set the environment variable to `true`:
+To show code coverage, set the environment variable to `true`
 
 ```bash
 COVERAGE=true bin/rails test
@@ -44,11 +44,9 @@ COVERAGE=true bin/rails test
 
 ## Client app
 
-See [this](https://github.com/mstranger/todos-client) page.  
-Address for requests - [https://todos-2tf6.onrender.com](https://todos-2tf6.onrender.com).
+See other repository [page](https://github.com/mstranger/todos-client).  
+Address for requests - `https://todos-server-atmu.onrender.com`. Note that the first one can take a long time.
 
 ## Docs
 
-To view api documentation visit [this](https://todos-server-atmu.onrender.com/apipie) link or [this](https://app.swaggerhub.com/apis/MSTRANGER/todos-api/1.0.0).  
-
-Local address - [http://localhost:3000/apipie](http://localhost:3000/apipie).
+To view api documentation visit [this](https://app.swaggerhub.com/apis/MSTRANGER/todos-api/1.0.0) link or [this](https://todos-server-atmu.onrender.com/apipie).  

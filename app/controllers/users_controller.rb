@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   skip_before_action :authenticate_request, only: :create
 
   resource_description do
-    short "Users sign up"
+    short "User sign up"
   end
 
   def_param_group :jwt_info do

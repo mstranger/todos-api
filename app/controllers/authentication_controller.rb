@@ -2,7 +2,7 @@ class AuthenticationController < ApplicationController
   skip_before_action :authenticate_request
 
   resource_description do
-    short "Users sing in"
+    short "User sign in"
     error 401, "Invalid credentials"
   end
 
