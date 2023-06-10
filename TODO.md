@@ -10,4 +10,4 @@
 - [x] write client app
 - [x] CI
 - [x] more tests
-- [ ] use s3 storage
+- [x] use s3 storage
