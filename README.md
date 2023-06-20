@@ -11,7 +11,7 @@ Tasks api server
 
 ## Running
 
-The postgres docker image is used for development. Therefore, first check db config file settings and edit corresponding fields.
+The Postgres docker image is used for development.
 
 ```bash
 docker compose build
@@ -26,7 +26,7 @@ bin/rails db:setup
 bin/rails server
 ```
 
-To run application in the Docker container uncomment `services -> web` section in the compose file and change host value to `db` in the config file.
+To run application in the Docker container uncomment `services -> web` section and edit database host value.
 
 ```bash
 docker compose up
@@ -34,19 +34,14 @@ docker compose exec web bin/rails db:setup
 docker compose exec web bin/rails server
 ```
 
-## Testing
-
-To show code coverage, set the environment variable to `true`
-
-```bash
-COVERAGE=true bin/rails test
-```
-
 ## Client app
 
 See other repository [page](https://github.com/mstranger/todos-client).  
-Address for requests - `https://todos-server-atmu.onrender.com`. Note that the first one can take a long time.
+
+Address for requests - `https://todos-server-atmu.onrender.com`  
+Note that the first one may take a long time.
 
 ## Docs
 
-To view api documentation visit [this](https://app.swaggerhub.com/apis/MSTRANGER/todos-api/1.0.0) link or [this](https://todos-server-atmu.onrender.com/apipie).  
+To view api documentation follow [this](https://app.swaggerhub.com/apis/MSTRANGER/todos-api/1.0.0) link
+or [this](https://todos-server-atmu.onrender.com/apipie).  
