@@ -24,8 +24,8 @@ test:
 
 production:
   <<: *default
-  host: <%= Rails.application.credentials.dig(:rds, :host) %>
-  port: <%= Rails.application.credentials.dig(:rds, :port) %>
-  username: <%= Rails.application.credentials.dig(:rds, :user) %>
-  password: <%= Rails.application.credentials.dig(:rds, :password) %>
-  database: todoapi_prod
+  host: <%= Rails.application.credentials.dig(:elephant, :host) %>
+  port: <%= Rails.application.credentials.dig(:elephant, :port) %>
+  username: <%= Rails.application.credentials.dig(:elephant, :user) %>
+  password: <%= Rails.application.credentials.dig(:elephant, :password) %>
+  database: <%= Rails.application.credentials.dig(:elephant, :dbname) %>
