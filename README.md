@@ -11,16 +11,12 @@ Tasks api server
 
 ## Running
 
-The Postgres docker image is used for development.
+Postgres docker image is used for development.
 
 ```bash
 docker compose build
-docker compose up/down
-```
+docker compose up
 
-Setup database and run the server.
-
-```bash
 bundle install
 bin/rails db:setup
 bin/rails server
@@ -37,11 +33,8 @@ docker compose exec web bin/rails server
 ## Client app
 
 See other repository [page](https://github.com/mstranger/todos-client).  
-
-Address for requests - `https://todos-server-atmu.onrender.com`  
-Note that the first one may take a long time.
+Address for requests - `https://todos-server-atmu.onrender.com`
 
 ## Docs
 
-To view api documentation follow [this](https://app.swaggerhub.com/apis/MSTRANGER/todos-api/1.0.0) link
-or [this](https://todos-server-atmu.onrender.com/apipie).  
+To view api documentation follow [this](https://todos-server-atmu.onrender.com/apipie) link.
