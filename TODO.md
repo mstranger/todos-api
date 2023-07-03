@@ -11,3 +11,4 @@
 - [x] CI
 - [x] more tests
 - [x] use rdb storage
+- [ ] use jsonapi-serializer gem
